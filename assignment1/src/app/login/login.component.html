@@ -1,1 +1,16 @@
-<p>login works!</p>
+<form>
+
+    <div class="form-outline mb-4">
+      <input type="text" [(ngModel)]="username" name="username" id="username" class="form-control" />
+      <label class="form-label" for="username">Username</label>
+    </div>
+  
+    <div class="form-outline mb-4">
+      <input type="password" [(ngModel)]="upwd" name="upwd" id="upwd" class="form-control" />
+      <label class="form-label" for="upwd">Password</label>
+    </div>
+  
+    <button type="button" (click)="onLogin()" class="btn btn-primary btn-block mb-4">Login</button>
+</form>
+
+<div id="errormsg" class="{{errorMsgState}}">Your username or password was incorrect.</div>
