@@ -1,1 +1,19 @@
-[{"gName":"Group 1"}, {"gName":"Group 2"}, {"gName":"Group 3"}]
+[
+    {"gName":"Group 1", "channel": [
+        {"cName": "Channel 1", "messages": [{"user": "Server", "message": "Welcome to Group 1, Channel 1"}]},
+        {"cName": "Channel 2", "messages": [{"user": "Server", "message": "Welcome to Group 1, Channel 2"}]},
+        {"cName": "Channel 3", "messages": [{"user": "Server", "message": "Welcome to Group 1, Channel 3"}]}
+    ]},
+
+    {"gName":"Group 2", "channel": [
+        {"cName": "Channel 1", "messages": [{"user": "Server", "message": "Welcome to Group 2, Channel 1"}]},
+        {"cName": "Channel 2", "messages": [{"user": "Server", "message": "Welcome to Group 2, Channel 2"}]},
+        {"cName": "Channel 3", "messages": [{"user": "Server", "message": "Welcome to Group 2, Channel 3"}]}
+    ]},
+
+    {"gName":"Group 3", "channel": [
+        {"cName": "Channel 1", "messages": [{"user": "Server", "message": "Welcome to Group 3, Channel 1"}]},
+        {"cName": "Channel 2", "messages": [{"user": "Server", "message": "Welcome to Group 3, Channel 2"}]},
+        {"cName": "Channel 3", "messages": [{"user": "Server", "message": "Welcome to Group 3, Channel 3"}]}
+    ]}
+]
