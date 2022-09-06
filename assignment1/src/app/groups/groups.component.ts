@@ -17,17 +17,20 @@ export class GroupsComponent implements OnInit {
 
   constructor(private router: Router, private httpClient: HttpClient) { }
 
-  gName:string="";
   username = JSON.parse(sessionStorage.getItem('username')!);
   email = JSON.parse(sessionStorage.getItem('email')!);
   role = JSON.parse(sessionStorage.getItem('role')!);
   valid = JSON.parse(sessionStorage.getItem('valid')!);
 
-  ngOnInit(): void {
+  ngOnInit() {
     if (!sessionStorage.getItem('valid')) {
       alert("You are not logged in.")
       this.router.navigateByUrl('home')
     }
+    let messages = {user: "", message: ""};
+    let channels = {cName: "", messages: [messages]};
+    let groups = [{gName: "", channel:[channels]}];
+    this.httpClient.post(serverURL + '/api/groups', groups, httpOptions)
 
 
   }
