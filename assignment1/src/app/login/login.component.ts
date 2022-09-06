@@ -21,17 +21,15 @@ export class LoginComponent implements OnInit {
   }
 
   username:string="";
-  upwd:string = "";
-  role: string="";
 
 
   ngOnInit(): void {
   }
 
   onLogin() {
-    let user = {username: this.username, upwd: this.upwd};
-    if (this.username === "" && this.upwd === "") {
-      alert("Please enter a username and password.");
+    let user = {username: this.username};
+    if (this.username === "") {
+      alert("Please enter a username.");
       return;
     }
     this.httpClient.post(serverURL + '/api/auth', user, httpOptions).subscribe((data: any) => {
