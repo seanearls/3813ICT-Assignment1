@@ -7,6 +7,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'assignment1';
+  title = 'Chat';
   constructor (private router: Router) {}
+
+  logout() {
+    sessionStorage.clear();
+    this.router.navigateByUrl("/");
+  }
+  
 }
+
