@@ -10,6 +10,10 @@ export class AppComponent {
   title = 'Chat';
   constructor (private router: Router) {}
 
+  valid = JSON.parse(sessionStorage.getItem('username')!);
+  role = JSON.parse(sessionStorage.getItem('role')!);
+  
+
   logout() {
     sessionStorage.clear();
     this.router.navigateByUrl("/");

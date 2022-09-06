@@ -38,8 +38,8 @@ export class LoginComponent implements OnInit {
       if (data.valid){
         sessionStorage.setItem('username', JSON.stringify(data.username));
         sessionStorage.setItem('email', JSON.stringify(data.email));
-        sessionStorage.setItem('id', JSON.stringify(data.id));
-        sessionStorage.setItem('role', JSON.stringify(data.id));
+        sessionStorage.setItem('role', JSON.stringify(data.role));
+        sessionStorage.setItem('valid', "true");
         this.router.navigateByUrl('groups');
       }
     });
