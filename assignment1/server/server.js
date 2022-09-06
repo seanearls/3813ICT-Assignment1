@@ -38,13 +38,13 @@ app.post('/api/auth', function(req,res){
     }});
 });
 
-/*app.post('api.users', (req, res) => {
-    fs.readFile('users.json', 'utf-8', function(err, data) {
+app.post('/api/groups', (req, res) => {
+    fs.readFile('groups.json', 'utf-8', function(err, data) {
         if (err) {
             console.log(err);
         } else {
-            var userData = json.parse(data);
-            res.send({userData});
+            let groups = JSON.parse(data);
+            res.send({groups});
         }
-    });   
-});*/
+    });
+})
