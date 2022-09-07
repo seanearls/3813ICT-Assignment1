@@ -43,7 +43,8 @@ app.post('/api/groups', (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            let groups = JSON.parse(data);
+            var groups = JSON.parse(data);
+            console.log({groups});
             res.send({groups});
         }
     });
