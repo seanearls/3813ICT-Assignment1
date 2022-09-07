@@ -28,16 +28,21 @@ export class GroupsComponent implements OnInit {
   groups: any[] = [{}];
   
   ngOnInit() {
-    this.getGroups()
+    this.getGroups();
   }
 
   getGroups() {
       this.httpClient.post<any>(serverURL + '/api/groups', this.groups, httpOptions).subscribe(data => {
         if (data.groups) {
           this.groups = data.groups;
-          console.log(this.groups)
+          console.log(this.groups);
           return;
         }
       });
   }
+
+  openChannel(groupNumber:number, channelNumber:number) {
+    this.router.navigateByUrl('/chat/' + groupNumber + '/' + channelNumber);
+  }
+
 }

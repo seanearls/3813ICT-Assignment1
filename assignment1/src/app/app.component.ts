@@ -16,7 +16,10 @@ export class AppComponent {
 
   logout() {
     sessionStorage.clear();
-    this.router.navigateByUrl("/");
+    this.router.navigateByUrl("/")
+    .then(() => {
+      window.location.reload();
+    });
   }
   
 }

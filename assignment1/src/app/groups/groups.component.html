@@ -1,1 +1,15 @@
 <p>Welcome {{username}}!</p>
+
+<table class="table table-bordered table-striped">
+    <ng-container *ngFor="let group of groups">
+        <tr>
+            <th class="tehead-dark">{{ group.gName }}</th>
+        </tr>
+        <ng-container *ngFor="let channel of group.channel">
+            <tr>
+                <td>{{ channel.cName }}</td>
+                <td><button type="button" (click)="openChannel(group.ID, channel.ID)" class="btn btn-primary">Open</button></td>
+            </tr>
+        </ng-container>
+    </ng-container>
+</table>

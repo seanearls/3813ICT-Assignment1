@@ -7,7 +7,7 @@ import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {path:'login', component:LoginComponent},
-  {path:'chat', component:ChatComponent},
+  {path:'chat/:groupNumber/:channelNumber', component:ChatComponent},
   {path:'groups', component:GroupsComponent},
   {path:'admin', component:AdminComponent}
 ];

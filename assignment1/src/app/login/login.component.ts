@@ -34,13 +34,17 @@ export class LoginComponent implements OnInit {
       alert("Please enter a username and password.");
       return;
     }
+    
     this.httpClient.post(serverURL + '/api/auth', user, httpOptions).subscribe((data: any) => {
       if (data.valid){
         sessionStorage.setItem('username', JSON.stringify(data.username));
         sessionStorage.setItem('email', JSON.stringify(data.email));
         sessionStorage.setItem('role', JSON.stringify(data.role));
         sessionStorage.setItem('valid', "true");
-        this.router.navigateByUrl('groups');
+        this.router.navigateByUrl('groups')
+        .then(() => {
+          window.location.reload();
+        })
       }
     });
   }
