@@ -17,16 +17,16 @@
             <label class="form-label">Role</label>
             <select class="form-control" [(ngModel)]="role" name="role">
                 <option value="user">User</option>
-                <option value="admin">Group Admin</option>
+                <option *ngIf="adminRole=='super'" value="admin">Group Admin</option>
                 <option *ngIf="adminRole=='super'" value="super">Super Admin</option>
             </select>
         </div>
 
-        <button class="btn btn-primary" type="button">Register</button>
+        <button class="btn btn-primary" type="button" (click)="onNewUser()">Register</button>
     </form>
 </div>
 
-<div class="container form-group">
+<div class="container form-group" *ngIf="adminRole == 'super'">
     <h2>Edit or Delete a User</h2>
     <label>User: </label>
     <form>

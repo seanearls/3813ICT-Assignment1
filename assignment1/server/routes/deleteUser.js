@@ -9,7 +9,6 @@ router.post('/', (req, res) => {
     var toDelete;
 
     fs.readFile('users.json', 'utf-8', function(err, data) {
-        
         if (err) {
             console.log(err);
         } else {
@@ -17,22 +16,15 @@ router.post('/', (req, res) => {
 
             for (user in toDelete) {
                 if (toDelete[user].username == deleted) {
-                    console.log(toDelete[user]);
                     delete toDelete[user];
-                    console.log(toDelete[user]);
-                    let newData = toDelete.filter(element => {
-                        if (Object.keys(element).length !== 0) {
-                            return true;
-                        }
-                        return false;
-                    })
-                    console.log(newData);
                     break;
                 }
             }
+            let newData = JSON.stringify(toDelete.filter(element => Object.keys(element).length));
+            console.log(newData);
             fs.writeFile('users.json', newData, 'utf-8', function(err) {
                 if (err) throw err;
-                res.send({'username':deleted, 'deleted':true});
+            res.send({'username':deleted, 'deleted':true});
             });
         }
     });

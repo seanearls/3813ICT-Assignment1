@@ -32,7 +32,6 @@ export class AdminComponent implements OnInit {
   editDeleteUser: User;
 
   users: User[];
-  isSuper = false;
   
 
   ngOnInit(): void {
@@ -43,23 +42,11 @@ export class AdminComponent implements OnInit {
       }
     });
 
-    if (this.adminRole === "super") {
-      this.isSuper = true;
-    }
-
   }
 
-  getUsers() {
-    this.http.post<any>(serverURL + '/getUsers', this.users)
-    .subscribe(res => {
-      if (res.users) {
-        this.users = res.users;
-        console.log(this.users);
-        return;
-      }
-    });
-  }
 
+
+  //Retrieve user to be edited or deleted.
   getUser() {
     if (this.selectedUser === "") {
       alert("Please select a user.");
@@ -82,10 +69,39 @@ export class AdminComponent implements OnInit {
     }
   }
 
+
+  //Registering a new user
+  onNewUser(){
+    if(this.username === "" || this.email === "" || this.role === ""){
+      alert("Fill in all fields to register a user.");
+    } else {
+      this.http.post<User>(serverURL + "/onNewUser", {username: this.username, email: this.email, role: this.role})
+      .subscribe((data: any) => {
+        if (data.registered) {
+          alert(this.username + " registered.");
+          this.username = "";
+          this.email = "";
+          this.role = "";
+
+          this.UserService.getUsers().subscribe (res => {
+            if (res.users) {
+              this.users = res.users;
+              console.log(this.users);
+            }
+          });
+        }
+      });
+    }
+  }
+
+
+  //Edit a current user
   onEdit(){
    return; 
   }
 
+
+  //Delete a user
   onDelete(){
     if (this.selectedUser === "") {
       alert("Please select a user.")
@@ -93,8 +109,23 @@ export class AdminComponent implements OnInit {
     } else {
       this.http.post<User>(serverURL + '/deleteUser', {username: this.selectedUser})
       .subscribe((data: any) => {
-        console.log(data);
+        console.log(data)
+        if (data.deleted) {
+          alert(this.selectedUser + " deleted.");
+          this.selectedUser = "";
+          this.sEmail = "";
+          this.sUsername = "";
+          this. sRole = "";
+
+          this.UserService.getUsers().subscribe (res => {
+            if (res.users) {
+              this.users = res.users;
+              console.log(this.users);
+            }
+          });
+        }
       })
+
     }
     return;
   }
