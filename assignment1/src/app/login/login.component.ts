@@ -20,22 +20,21 @@ export class LoginComponent implements OnInit {
 
   }
 
-  username:string="";
-  upwd:string = "";
-  role: string="";
+  username:string;
+  role: string;
 
 
   ngOnInit(): void {
   }
 
   onLogin() {
-    let user = {username: this.username, upwd: this.upwd};
-    if (this.username === "" && this.upwd === "") {
-      alert("Please enter a username and password.");
+    let user = {username: this.username};
+    if (this.username === "") {
+      alert("Please enter a username.");
       return;
     }
     
-    this.httpClient.post(serverURL + '/api/auth', user, httpOptions).subscribe((data: any) => {
+    this.httpClient.post(serverURL + '/auth', user, httpOptions).subscribe((data: any) => {
       if (data.valid){
         sessionStorage.setItem('username', JSON.stringify(data.username));
         sessionStorage.setItem('email', JSON.stringify(data.email));

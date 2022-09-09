@@ -1,13 +1,8 @@
 <form>
 
-    <div class="form-outline mb-4">
+    <div class="container form-outline mb-4">
       <input type="text" [(ngModel)]="username" name="username" id="username" class="form-control" />
       <label class="form-label" for="username">Username</label>
-    </div>
-  
-    <div class="form-outline mb-4">
-      <input type="password" [(ngModel)]="upwd" name="upwd" id="upwd" class="form-control" />
-      <label class="form-label" for="upwd">Password</label>
     </div>
   
     <button type="button" (click)="onLogin()" class="btn btn-primary btn-block mb-4">Login</button>

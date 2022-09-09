@@ -1,1 +1,64 @@
-<p>admin works!</p>
+<h3>Welcome to administration {{adminUsername}}.</h3>
+
+<div class="container">
+    <h2>Register a New User</h2>
+    <form >
+        <div class="form-group">
+            <label class="form-label" for="username">Username</label>
+            <input type="text" [(ngModel)]="username" name="username" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="email">Email</label>
+            <input type="email" class="form-control" name="email" [(ngModel)]="email" />
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Role</label>
+            <select class="form-control" [(ngModel)]="role" name="role">
+                <option value="user">User</option>
+                <option value="admin">Group Admin</option>
+                <option *ngIf="adminRole=='super'" value="super">Super Admin</option>
+            </select>
+        </div>
+
+        <button class="btn btn-primary" type="button">Register</button>
+    </form>
+</div>
+
+<div class="container form-group">
+    <h2>Edit or Delete a User</h2>
+    <label>User: </label>
+    <form>
+        <select class="form-control" [(ngModel)]="selectedUser" name="selectedUser">
+            <option *ngFor="let user of users" value="{{user.username}}">
+                {{user.username}}
+            </option>
+        </select>
+        <button class="btn" type="button" (click)="getUser()">Select</button>
+    </form>
+
+    <form>
+        <div class="form-group">
+            <label class="form-label" for="sEmail">Email</label>
+            <input type="email" class="form-control" name="sEmail" [(ngModel)]="sEmail" />
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label" for="sUsername" >Username</label>
+            <input type="username" class="form-control" placeholder="value" name="sUsername" [(ngModel)]="sUsername" />
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Role</label>
+            <select class="form-control" [(ngModel)]="sRole" [value]="sRole" name="sRole">
+                <option value="user">User</option>
+                <option value="admin">Group Admin</option>
+                <option *ngIf="adminRole=='super'" value="super">Super Admin</option>
+            </select>
+        </div>
+
+        <button class="btn btn-primary" type="button">Update</button>
+        <button class="btn btn-danger" type="button">Delete User</button>
+    </form>
+</div>

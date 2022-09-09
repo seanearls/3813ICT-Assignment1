@@ -22,23 +22,36 @@ export class ChatComponent implements OnInit {
   role = JSON.parse(sessionStorage.getItem('role')!);
   valid = JSON.parse(sessionStorage.getItem('valid')!);
   groups: any[] = [{}];
-  channel: {} = {};
-  groupNumber:number=0;
-  channelNumber:number=0;
+  groupNumber:number=Number(this.route.snapshot.paramMap.get('groupNumber'));
+  channelNumber:number=Number(this.route.snapshot.paramMap.get('channelNumber'));
+  channel:any;
+  
 
   ngOnInit() {
-    this.groupNumber = Number(this.route.snapshot.paramMap.get('groupNumber'));
-    this.channelNumber = Number(this.route.snapshot.paramMap.get('channelNumber'));
-    console.log(this.groupNumber, this.channelNumber);
     this.getChannel(this.groupNumber, this.channelNumber);
+    console.log(this.channel);
+    this.getGroups();
   }
 
-  getChannel(groupNumber: number, channelNumber: number) {
-    this.httpClient.post<any>(serverURL + '/api/groups', this.groups, httpOptions).subscribe(data => {
+  getGroups() {
+    this.httpClient.post<any>(serverURL + '/getGroups', this.groups, httpOptions).subscribe(data => {
       if (data.groups) {
         this.groups = data.groups;
         console.log(this.groups);
-        this.channel = this.groups[groupNumber].channel[channelNumber];
+        let group = this.groups[this.groupNumber];
+        return group;
+      }
+    });
+}
+
+  getChannel(groupNumber: number, channelNumber: number) {
+    this.httpClient.post<any>(serverURL + '/getGroups', this.groups, httpOptions).subscribe(data => {
+      if (data.groups) {
+        this.groups = data.groups;
+        this.channel = this.groups[groupNumber-1].channel[channelNumber-1];
+        let channel = this.channel;
+        console.log(channel);
+        console.log(this.channel);
         return;
       }
     });

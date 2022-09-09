@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <ul class="nav navbar-nav">
       <li class="active"><a class="nav-link" routerLink="/">Home</a></li>
       <span *ngIf="!valid"><li class="nav-item"><a class="nav-link" routerLink="login">Login</a></li></span>
-      <span *ngIf="valid"><li class="nav-item"><a class="nav-link" routerLink="chat">Chat</a></li></span>
       <span *ngIf="valid && role=='super' || role=='admin'"><li class="nav-item"><a class="nav-link" routerLink="admin">Admin</a></li></span>
       <span *ngIf="valid"><li class="nav-item"><a class="nav-link" routerLink="groups">Groups</a></li></span>
       <span *ngIf="valid"><li class="nav-item"><a class="nav-link" (click)="logout()" routerLink="/">Logout</a></li></span>

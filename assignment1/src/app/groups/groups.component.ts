@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Group } from '../model/group';
+import { GroupsService } from '../services/groups.service';
 
 const serverURL = 'http://localhost:3000';
 const httpOptions = {
@@ -16,7 +18,7 @@ const httpOptions = {
 export class GroupsComponent implements OnInit {
 
 
-  constructor(private router: Router, private httpClient: HttpClient) {
+  constructor(private router: Router, private httpClient: HttpClient, public GroupService: GroupsService) {
 
   }
 
@@ -25,20 +27,20 @@ export class GroupsComponent implements OnInit {
   email = JSON.parse(sessionStorage.getItem('email')!);
   role = JSON.parse(sessionStorage.getItem('role')!);
   valid = JSON.parse(sessionStorage.getItem('valid')!);
-  groups: any[] = [{}];
+  groups: Group[];
   
   ngOnInit() {
-    this.getGroups();
+    this.getGroups()
   }
 
   getGroups() {
-      this.httpClient.post<any>(serverURL + '/api/groups', this.groups, httpOptions).subscribe(data => {
-        if (data.groups) {
-          this.groups = data.groups;
-          console.log(this.groups);
-          return;
-        }
-      });
+    this.GroupService.getGroups()
+    .subscribe(res => {
+      if (res.groups) {
+        this.groups = res.groups;
+        console.log(this.groups)
+      }
+    });
   }
 
   openChannel(groupNumber:number, channelNumber:number) {
