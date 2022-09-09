@@ -29,6 +29,7 @@ export class AdminComponent implements OnInit {
   sEmail: string;
   sRole: string;
   
+  editDeleteUser: User;
 
   users: User[];
   isSuper = false;
@@ -70,10 +71,32 @@ export class AdminComponent implements OnInit {
           this.sUsername = this.users[i].username;
           this.sEmail = this.users[i].email;
           this.sRole = this.users[i].role;
+          this.editDeleteUser = {
+            username: this.sUsername,
+            email: this.sEmail,
+            role: this.sRole
+          }
           return;
         }
       }
     }
+  }
+
+  onEdit(){
+   return; 
+  }
+
+  onDelete(){
+    if (this.selectedUser === "") {
+      alert("Please select a user.")
+      return;
+    } else {
+      this.http.post<User>(serverURL + '/deleteUser', {username: this.selectedUser})
+      .subscribe((data: any) => {
+        console.log(data);
+      })
+    }
+    return;
   }
 
 }

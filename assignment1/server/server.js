@@ -25,14 +25,15 @@ app.use('/getUsers', usersRoute);
 
 //////Create New User
 const newUserRoute = require('./routes/onNewUser', (app, path));
-app.use('onNewUser', newUserRoute);
+app.use('/onNewUser', newUserRoute);
 
 //////Edit User
 const editUserRoute = require('./routes/editUser', (app, path));
 //app.use('/editUser', editUserRoute);
 
 //////Delete User
-
+const deleteRoute = require('./routes/deleteUser', (app, path));
+app.use('/deleteUser', deleteRoute)
 
 //////Get Groups
 const groupsRoute = require('./routes/getGroups', (app, path));
