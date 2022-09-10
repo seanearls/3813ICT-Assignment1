@@ -37,28 +37,29 @@
         </select>
         <button class="btn" type="button" (click)="getUser()">Select</button>
     </form>
+    <ng-container *ngIf="isSelected">
+        <form>
+            <div class="form-group">
+                <label class="form-label" for="sEmail">Email</label>
+                <input type="email" class="form-control" name="sEmail" [(ngModel)]="sEmail" />
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="sUsername" >Username</label>
+                <input type="username" class="form-control" placeholder="value" name="sUsername" [(ngModel)]="sUsername" />
+            </div>
 
-    <form>
-        <div class="form-group">
-            <label class="form-label" for="sEmail">Email</label>
-            <input type="email" class="form-control" name="sEmail" [(ngModel)]="sEmail" />
-        </div>
-        
-        <div class="form-group">
-            <label class="form-label" for="sUsername" >Username</label>
-            <input type="username" class="form-control" placeholder="value" name="sUsername" [(ngModel)]="sUsername" />
-        </div>
+            <div class="form-group">
+                <label class="form-label">Role</label>
+                <select class="form-control" [(ngModel)]="sRole" [value]="sRole" name="sRole">
+                    <option value="user">User</option>
+                    <option value="admin">Group Admin</option>
+                    <option *ngIf="adminRole=='super'" value="super">Super Admin</option>
+                </select>
+            </div>
 
-        <div class="form-group">
-            <label class="form-label">Role</label>
-            <select class="form-control" [(ngModel)]="sRole" [value]="sRole" name="sRole">
-                <option value="user">User</option>
-                <option value="admin">Group Admin</option>
-                <option *ngIf="adminRole=='super'" value="super">Super Admin</option>
-            </select>
-        </div>
-
-        <button class="btn btn-primary" type="button" (click)="onEdit()">Update</button>
-        <button class="btn btn-danger" type="button" (click)="onDelete()">Delete User</button>
-    </form>
+            <button class="btn btn-primary" type="button" (click)="onEdit()">Update</button>
+            <button class="btn btn-danger" type="button" (click)="onDelete()">Delete User</button>
+        </form>
+    </ng-container>
 </div>

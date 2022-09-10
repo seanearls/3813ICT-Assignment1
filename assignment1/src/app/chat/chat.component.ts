@@ -57,4 +57,12 @@ export class ChatComponent implements OnInit {
     });
   }
 
+  addUser() {
+
+  }
+
+  addAssistant() {
+    
+  }
+
 }

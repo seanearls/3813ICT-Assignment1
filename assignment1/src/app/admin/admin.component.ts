@@ -23,6 +23,7 @@ export class AdminComponent implements OnInit {
   email: string;
   role: string;
   user: User;
+  isSelected = false;
  
   selectedUser: string;
   sUsername: string;
@@ -55,6 +56,7 @@ export class AdminComponent implements OnInit {
       let user: User;
       for (let i = 0; i < this.users.length; i++) {
         if (this.selectedUser === this.users[i].username) {
+          this.isSelected = true;
           this.sUsername = this.users[i].username;
           this.sEmail = this.users[i].email;
           this.sRole = this.users[i].role;
@@ -116,6 +118,7 @@ export class AdminComponent implements OnInit {
           this.sEmail = "";
           this.sUsername = "";
           this. sRole = "";
+          this.isSelected = false;
 
           this.UserService.getUsers().subscribe (res => {
             if (res.users) {

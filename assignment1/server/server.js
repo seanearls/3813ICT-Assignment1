@@ -39,3 +39,7 @@ app.use('/deleteUser', deleteRoute)
 const groupsRoute = require('./routes/getGroups', (app, path));
 app.use('/getGroups', groupsRoute);
 
+//////New Group
+const newGroupRoute = require('./routes/newGroup', (app, path));
+app.use('/newGroup', newGroupRoute);
+

@@ -5,5 +5,6 @@ export interface Group {
     ID: number;
     gName: string;
     users: User[];
+    assistants: string[];
     channel: Channel[];
 }
