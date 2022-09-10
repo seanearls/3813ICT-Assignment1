@@ -12,6 +12,7 @@ import { ChatComponent } from './chat/chat.component';
 import { AdminComponent } from './admin/admin.component';
 import { GroupsService } from './services/groups.service';
 import { UserService } from './services/user.service';
+import { GroupAdminComponent } from './group-admin/group-admin.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { UserService } from './services/user.service';
     LoginComponent,
     GroupsComponent,
     ChatComponent,
-    AdminComponent
+    AdminComponent,
+    GroupAdminComponent
   ],
   imports: [
     BrowserModule,

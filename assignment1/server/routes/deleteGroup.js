@@ -12,10 +12,9 @@ router.post('/', (req, res) => {
 
     fs.readFile('groups.json', 'utf-8', function(err, data) {
         if (err) {
-            console.log("ggggg" + err);
+            console.log(err);
         } else {
             toDelete = JSON.parse(data);
-            console.log("GGGgggg" + toDelete)
 
             for (group in toDelete) {
                 if (toDelete[group].gName == deleted) {

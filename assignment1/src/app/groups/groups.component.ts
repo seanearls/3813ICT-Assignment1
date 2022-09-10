@@ -84,6 +84,10 @@ export class GroupsComponent implements OnInit {
     })
   }
 
+  openGroupAdmin(groupNumber: number) {
+    this.router.navigateByUrl('/groupAdmin/' + groupNumber);
+  }
+
   getLastGroup(){
     this.GroupService.getGroups().subscribe (res => {
       if (res.groups) {
@@ -110,30 +114,6 @@ export class GroupsComponent implements OnInit {
         }
       });
     }
-  }
-
-  deleteGroup(group: string) {
-    this.httpClient.post(serverURL + '/deleteGroup', {gName: group})
-    .subscribe((data: any) => {
-      if (data.deleted) {
-        alert(group + ' deleted.')
-        group = '';
-
-        this.GroupService.getGroups().subscribe(res => {
-          if (res.groups) {
-            this.groups = res.groups;
-          }
-        });
-      }
-    })
-  }
-
-  newChannel () {
-    
-  }
-
-  deleteChannel() {
-
   }
 
   openChannel(groupNumber:number, channelNumber:number) {

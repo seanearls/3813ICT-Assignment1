@@ -61,8 +61,4 @@ export class ChatComponent implements OnInit {
 
   }
 
-  addAssistant() {
-    
-  }
-
 }

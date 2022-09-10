@@ -3,6 +3,9 @@ const router = express.Router(); //Calling top-level express function
 const path = require('path');
 const fs = require('fs');
 
+///////Route for deleting a user
+
+
 router.post('/', (req, res) => {
 
     var deleted = req.body.username

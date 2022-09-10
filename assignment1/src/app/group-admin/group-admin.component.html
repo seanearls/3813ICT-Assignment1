@@ -1,0 +1,13 @@
+<p>Welcome {{username}}!</p>
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <th class="thead-dark">{{ group.gName }}</th>
+    </tr>
+    <ng-container *ngFor="let channel of group.channel">
+        <tr>
+            <td>{{ channel.cName }}</td>
+        </tr>
+    </ng-container>
+    <button type="button" (click)="deleteGroup(group.gName)" class="btn btn-danger">Delete Group</button>
+</table>

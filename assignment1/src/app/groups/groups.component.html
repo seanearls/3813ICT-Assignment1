@@ -3,17 +3,15 @@
 <table class="table table-bordered table-striped">
     <ng-container *ngFor="let group of groups">
         <tr>
-            <th class="tehead-dark">{{ group.gName }}</th>
-            <button type="button" (click)="deleteGroup(group.gName)" class="btn btn-danger">Delete Group</button>
+            <th class="thead-dark">{{ group.gName }}</th>
+            <button type="button" (click)="openGroupAdmin(group.ID)">Configure</button>
         </tr>
         <ng-container *ngFor="let channel of group.channel">
             <tr>
                 <td>{{ channel.cName }}</td>
                 <button type="button" (click)="openChannel(group.ID, channel.ID)" class="btn btn-primary">Open</button>
-                <button type="button" *ngIf="role === 'super' || role === 'admin' || group.assistants.includes(username)" (click)="deleteChannel()" class="btn btn-danger">Delete Channel</button>
             </tr>
         </ng-container>
-        <button type="button" *ngIf="role === 'super' || role === 'admin' || group.assistants.includes(username)" (click)="newChannel()" class="btn btn-primary">Add Channel</button>
     </ng-container>
 </table>
 
