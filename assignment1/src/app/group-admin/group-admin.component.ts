@@ -40,7 +40,8 @@ export class GroupAdminComponent implements OnInit {
       if (res.groups) {
         this.groups = res.groups;
         this.group = this.groups[groupNumber-1];
-        this.newId = this.groups[groupNumber-1].ID + 1;
+        console.log(this.group.channel.length);
+        this.newId = this.group.channel.length + 1;
         return;
       }
     });
@@ -57,25 +58,21 @@ export class GroupAdminComponent implements OnInit {
     })
   }
 
-  /*addChannel () {
+  addChannel () {
     if (this.channelName === "") {
       alert("Please enter a channel name.")
       return;
     } else {
-      this.httpClient.post<Channel>(serverURL + '/newChannel', {newId: this.newId, cName: this.channelName, messages: [{}], users: this.admins})
+      this.httpClient.post<Channel>(serverURL + '/newChannel', {groupName: this.group.gName, newId: this.newId, cName: this.channelName, messages: [{}], users: this.admins})
       .subscribe((data: any) => {
         if(data.channelMade) {
           this.channelName = "";
 
-          this.GroupService.getGroups().subscribe(res => {
-            if (res.groups) {
-              this.groups = res.groups;
-            }
-          })
+          this.getGroup(this.groupNumber);
         }
       })
     }
-  }*/
+  }
 
   getAdmins(){
     let adminList: string[] = [];

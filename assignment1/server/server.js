@@ -48,5 +48,5 @@ const deleteGroupRoute = require('./routes/deleteGroup', (app, path));
 app.use('/deleteGroup', deleteGroupRoute);
 
 //////New Channel
-//const newChannelRoute = require('/routes/newChannel', (app, path));
-//app.use('/newChannel', newChannelRoute);
+const newChannelRoute = require('./routes/newChannel', (app, path));
+app.use('/newChannel', newChannelRoute);

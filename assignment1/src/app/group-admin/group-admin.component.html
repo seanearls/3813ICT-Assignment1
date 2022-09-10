@@ -11,3 +11,13 @@
     </ng-container>
     <button type="button" (click)="deleteGroup(group.gName)" class="btn btn-danger">Delete Group</button>
 </table>
+<div class="container">
+    <form>
+        <h4>Add Channel</h4>
+        <div class="form-group">
+            <label class="form-label" for="channelName">Channel Name</label>
+            <input type="text" [(ngModel)]="channelName" name="channelName" class="form-control" />
+        </div>
+        <button class="btn btn-primary" type="button" (click)="addChannel()">Add Channel</button>
+    </form>
+</div>
