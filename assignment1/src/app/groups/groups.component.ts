@@ -112,8 +112,20 @@ export class GroupsComponent implements OnInit {
     }
   }
 
-  deleteGroup() {
-    
+  deleteGroup(group: string) {
+    this.httpClient.post(serverURL + '/deleteGroup', {gName: group})
+    .subscribe((data: any) => {
+      if (data.deleted) {
+        alert(group + ' deleted.')
+        group = '';
+
+        this.GroupService.getGroups().subscribe(res => {
+          if (res.groups) {
+            this.groups = res.groups;
+          }
+        });
+      }
+    })
   }
 
   newChannel () {

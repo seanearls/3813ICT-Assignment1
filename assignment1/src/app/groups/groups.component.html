@@ -4,6 +4,7 @@
     <ng-container *ngFor="let group of groups">
         <tr>
             <th class="tehead-dark">{{ group.gName }}</th>
+            <button type="button" (click)="deleteGroup(group.gName)" class="btn btn-danger">Delete Group</button>
         </tr>
         <ng-container *ngFor="let channel of group.channel">
             <tr>

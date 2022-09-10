@@ -43,3 +43,7 @@ app.use('/getGroups', groupsRoute);
 const newGroupRoute = require('./routes/newGroup', (app, path));
 app.use('/newGroup', newGroupRoute);
 
+//////Delete Group
+const deleteGroupRoute = require('./routes/deleteGroup', (app, path));
+app.use('/deleteGroup', deleteGroupRoute);
+
