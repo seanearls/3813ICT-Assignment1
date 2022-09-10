@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Group } from '../model/group';
+import { User } from '../model/user';
 import { Channel } from '../model/channel';
 import { GroupsService } from '../services/groups.service';
 import { UserService } from '../services/user.service';
@@ -28,10 +29,17 @@ export class GroupAdminComponent implements OnInit {
   groupNumber:number=Number(this.route.snapshot.paramMap.get('groupNumber'));
   admins: string[];
   newId: number;
+  addUser: string;
+  users: User[];
 
   ngOnInit(){
     this.getGroup(this.groupNumber);
     this.getAdmins();
+    this.UserService.getUsers().subscribe (res => {
+      if (res.users) {
+        this.users = res.users;
+      }
+    })
   }
 
   getGroup(groupNumber: number) {
@@ -100,11 +108,26 @@ export class GroupAdminComponent implements OnInit {
     })
   }
 
-  addUser (user: string) {
+  addGroupUser (group: string) {
+    this.httpClient.post(serverURL + '/addGroupUser', {user: this.addUser, group: this.group.gName})
+    .subscribe((data: any) => {
+      if (data.added) {
+        alert(this.addUser + ' added to group.')
+        this.addUser = '';
+        this.getGroup(this.groupNumber);
+      }
+    })
+  }
+
+  removeGroupUser (user: string) {
 
   }
 
-  removeUser (user: string) {
+  addChannelUser(user: string) {
+
+  }
+
+  removeChannelUser(user: string) {
 
   }
 

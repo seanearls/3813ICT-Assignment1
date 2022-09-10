@@ -9,7 +9,6 @@ router.post('/', (req, res) => {
             console.log(err);
         } else {
             var groups = JSON.parse(data);
-            console.log({groups});
             res.send({groups});
         }
     });

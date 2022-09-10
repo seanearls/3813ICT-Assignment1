@@ -54,3 +54,7 @@ app.use('/newChannel', newChannelRoute);
 //////Delete Channel
 const deleteChannelRoute = require('./routes/deleteChannel', (app, path));
 app.use('/deleteChannel', deleteChannelRoute);
+
+/////Add User to Group
+const addGroupUserRoute = require('./routes/addGroupUser', (app, path));
+app.use('/addGroupUser', addGroupUserRoute)
