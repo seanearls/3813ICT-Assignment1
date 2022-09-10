@@ -8,8 +8,8 @@
         <tr>
             <td>{{ channel.cName }}</td>
         </tr>
+        <button type="button" (click)="deleteChannel(channel.cName)" class="btn btn-danger">Delete Channel</button>
     </ng-container>
-    <button type="button" (click)="deleteGroup(group.gName)" class="btn btn-danger">Delete Group</button>
 </table>
 <div class="container">
     <form>
@@ -20,4 +20,5 @@
         </div>
         <button class="btn btn-primary" type="button" (click)="addChannel()">Add Channel</button>
     </form>
+    <button type="button" (click)="deleteGroup(group.gName)" class="btn btn-danger">Delete Group</button>
 </div>

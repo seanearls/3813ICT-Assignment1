@@ -90,7 +90,14 @@ export class GroupAdminComponent implements OnInit {
   }
 
   deleteChannel (channel: string) {
-
+    this.httpClient.post(serverURL + '/deleteChannel', {deleted: channel, group: this.group.gName})
+    .subscribe((data: any) => {
+      if (data.deleted) {
+        alert(channel + ' deleted.')
+        channel = '';
+        this.getGroup(this.groupNumber);
+      }
+    })
   }
 
   addUser (user: string) {
