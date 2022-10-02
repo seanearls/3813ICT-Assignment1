@@ -13,6 +13,7 @@ import { AdminComponent } from './admin/admin.component';
 import { GroupsService } from './services/groups.service';
 import { UserService } from './services/user.service';
 import { GroupAdminComponent } from './group-admin/group-admin.component';
+import { GroupComponent } from './group/group.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { GroupAdminComponent } from './group-admin/group-admin.component';
     GroupsComponent,
     ChatComponent,
     AdminComponent,
-    GroupAdminComponent
+    GroupAdminComponent,
+    GroupComponent
   ],
   imports: [
     BrowserModule,

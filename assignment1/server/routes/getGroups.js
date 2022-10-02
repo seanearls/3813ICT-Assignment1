@@ -1,17 +1,23 @@
 const express = require('express'); //Import express module
 const router = express.Router(); //Calling top-level express function
-const path = require('path');
-const fs = require('fs');
+const MongoClient = require('mongodb').MongoClient;
+const url = 'mongodb://localhost:27017';
 
 router.post('/', (req, res) => {
-    fs.readFile('groups.json', 'utf-8', function(err, data) {
-        if (err) {
-            console.log(err);
-        } else {
-            var groups = JSON.parse(data);
+    MongoClient.connect(url, {maxPoolSize:10}, function(err, client) {
+        if(err){return console.log(err)}
+        const dbName = 'chat_app'
+        const db = client.db(dbName);
+        const collection = db.collection('groups');
+
+        collection.find().toArray()
+        .then(response => {
+            var groups = response;
             res.send({groups});
-        }
-    });
+        })
+        .catch(err => console.log(err));
+    })
 })
+
 
 module.exports = router;

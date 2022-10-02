@@ -13,48 +13,47 @@ app.use(express.static(path.join(__dirname, '../dist/assignment1')));
 require('./listen.js')(server);
 
 
-
 /////////////////Routes////////////////////
 //////Login
-const authRoute = require('./routes/auth', (app, path));
+var authRoute = require('./routes/auth');
 app.use('/auth', authRoute);
 
 //////Get Users
-const usersRoute = require('./routes/getUsers', (app, path));
+const usersRoute = require('./routes/getUsers');
 app.use('/getUsers', usersRoute);
 
 //////Create New User
-const newUserRoute = require('./routes/onNewUser', (app, path));
+const newUserRoute = require('./routes/onNewUser');
 app.use('/onNewUser', newUserRoute);
 
 //////Edit User
-const editUserRoute = require('./routes/editUser', (app, path));
+const editUserRoute = require('./routes/editUser');
 //app.use('/editUser', editUserRoute);
 
 //////Delete User
-const deleteRoute = require('./routes/deleteUser', (app, path));
+const deleteRoute = require('./routes/deleteUser');
 app.use('/deleteUser', deleteRoute)
 
 //////Get Groups
-const groupsRoute = require('./routes/getGroups', (app, path));
+const groupsRoute = require('./routes/getGroups');
 app.use('/getGroups', groupsRoute);
 
 //////New Group
-const newGroupRoute = require('./routes/newGroup', (app, path));
+const newGroupRoute = require('./routes/newGroup');
 app.use('/newGroup', newGroupRoute);
 
 //////Delete Group
-const deleteGroupRoute = require('./routes/deleteGroup', (app, path));
+const deleteGroupRoute = require('./routes/deleteGroup');
 app.use('/deleteGroup', deleteGroupRoute);
 
 //////New Channel
-const newChannelRoute = require('./routes/newChannel', (app, path));
+const newChannelRoute = require('./routes/newChannel');
 app.use('/newChannel', newChannelRoute);
 
 //////Delete Channel
-const deleteChannelRoute = require('./routes/deleteChannel', (app, path));
+const deleteChannelRoute = require('./routes/deleteChannel');
 app.use('/deleteChannel', deleteChannelRoute);
 
 /////Add User to Group
-const addGroupUserRoute = require('./routes/addGroupUser', (app, path));
+const addGroupUserRoute = require('./routes/addGroupUser');
 app.use('/addGroupUser', addGroupUserRoute)
