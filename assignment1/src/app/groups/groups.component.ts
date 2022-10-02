@@ -121,6 +121,22 @@ export class GroupsComponent implements OnInit {
     }
   }
 
+  deleteGroup(ID: number) {
+    this.httpClient.post(serverURL + '/deleteGroup', {ID: ID})
+    .subscribe((data: any) => {
+      if (data.deleted) {
+        alert('Group with ID: ' + data.ID + ' deleted.')
+
+        this.GroupService.getGroups().subscribe(res => {
+          if (res.groups) {
+            this.groups = res.groups;
+          }
+        });
+      }
+    })
+  }
+
+
   openChannel(groupNumber:number, channelNumber:number) {
     this.router.navigateByUrl('/chat/' + groupNumber + '/' + channelNumber);
   }

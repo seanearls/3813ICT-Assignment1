@@ -1,36 +1,21 @@
 const express = require('express'); //Import express module
 const router = express.Router(); //Calling top-level express function
-const path = require('path');
-const fs = require('fs');
-
-//////Route for deleting a group
-
+const MongoClient = require('mongodb').MongoClient;
+const url = 'mongodb://localhost:27017';
 
 router.post('/', (req, res) => {
-    var deleted = req.body.gName
-    var toDelete;
+    var ID = req.body.ID
 
-    fs.readFile('groups.json', 'utf-8', function(err, data) {
-        if (err) {
-            console.log(err);
-        } else {
-            toDelete = JSON.parse(data);
+    MongoClient.connect(url, {maxPoolSize:10}, function(err, client) {
+        if(err){return console.log(err)}
+        const dbName='chat_app'
+        const db = client.db(dbName);
+        const collection = db.collection('groups');
 
-            for (group in toDelete) {
-                if (toDelete[group].gName == deleted) {
-                    console.log("To delete " + toDelete[group])
-                    delete toDelete[group];
-                    break;
-                }
-            }
-            let newData = JSON.stringify(toDelete.filter(element => Object.keys(element).length));
-            console.log(newData);
-            fs.writeFile('groups.json', newData, 'utf-8', function(err) {
-                if (err) throw err;
-            res.send({'gName': deleted, 'deleted': true});
-            });
-        }
-    });
-});
+        collection.deleteOne({'ID': ID})
+        .then(res.send({'ID': ID, 'deleted': true}))
+        .catch(err => console.log(err));
+    })
+})
 
 module.exports = router;
