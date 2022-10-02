@@ -1,1 +1,19 @@
-<p>group works!</p>
+<p>Welcome {{username}}!</p>
+
+<table class="table table-bordered table-striped">
+    <ng-container *ngFor="let channel of channels">
+        <th class="thead-dark">{{ channel.cName }}</th>
+        <button type="button" (click)="openChannel(channel.chanID)">Open</button>
+    </ng-container>
+</table>
+
+<ng-container *ngIf="role === 'super' || role ==='admin'">
+    <form>
+        <h3>Create a New Channel</h3>
+        <div class="form-group">
+            <label class="form-label" for="channelName">Channel Name</label>
+            <input type="text" [(ngModel)]="channelName" name="channelName" class="form-control" />
+        </div>
+        <button class="btn btn-primary" type="button" (click)="addChannel()">Create Channel</button>
+    </form>
+</ng-container>

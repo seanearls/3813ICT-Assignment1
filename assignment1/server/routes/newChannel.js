@@ -1,35 +1,31 @@
 const app = require('express');
 const router = app.Router();
 const bodyParser = require('body-parser');
-const fs = require('fs');
+const MongoClient = require('mongodb').MongoClient;
+const url = 'mongodb://localhost:27017';
 
-//Route for creating new channel
 router.post('/', (req, res) => {
-    var newChannel = {};
-    var groupName = req.body.groupName
-    var newId = req.body.newId;
-    var cName = req.body.cName;
-    var messages = req.body.messages;
-    var users = req.body.users
+    var admins = [];
+    var channelName = req.body.cName
+    var newID = req.body.newID;
+    var groupID = req.body.groupID;
+    var admins = req.body.users;
 
-    fs.readFile('groups.json', 'utf-8', function(err, data) {
-        if (err) {
-            console.log(err);
-        } else {
-            newChannel = JSON.parse(data);
-            console.log(newChannel);
+    MongoClient.connect(url, {maxPoolSize:10}, function(err, client) {
+        if(err){return console.log(err)}
+        const dbName='chat_app'
+        const db = client.db(dbName);
+        const collection = db.collection('channels');
 
-            for (let group in newChannel) {
-                if (newChannel[group].gName === groupName) {
-                    newChannel[group].channel.push({'ID': newId, 'cName': cName, 'messages': messages, 'users': users})
-                }
-            }
-            newChannel = JSON.stringify(newChannel);
-            fs.writeFile('groups.json', newChannel, 'utf-8', function (err) {
-                if (err) throw err;
-                res.send({'cName': newChannel, 'channelMade': true})
-            });
-        }
+        collection.insertOne({
+            'groupID': groupID,
+            'chanID': newID,
+            'cName': channelName,
+            'messages': [],
+            'users': admins
+        })
+        .then(res.send({'channelName': channelName, 'channelMade': true}))
+        .catch(err => console.log(err));
     });
 });
 

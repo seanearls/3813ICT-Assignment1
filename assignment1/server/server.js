@@ -38,6 +38,10 @@ app.use('/deleteUser', deleteRoute)
 const groupsRoute = require('./routes/getGroups');
 app.use('/getGroups', groupsRoute);
 
+//////Get Channels
+const channelsRoute = require('./routes/getChannels');
+app.use('/getChannels', channelsRoute);
+
 //////New Group
 const newGroupRoute = require('./routes/newGroup');
 app.use('/newGroup', newGroupRoute);

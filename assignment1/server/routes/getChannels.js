@@ -9,11 +9,10 @@ router.post('/', (req, res) => {
         const dbName = 'chat_app'
         const db = client.db(dbName);
         const collection = db.collection('channels');
-        let groupID = req.body;
 
         collection.find().toArray()
         .then(response => {
-            var channels = response[groupID];
+            channels = response;
             res.send({channels});
         })
         .catch(err => console.log(err));

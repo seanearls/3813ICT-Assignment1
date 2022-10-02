@@ -13,7 +13,7 @@ const routes: Routes = [
   {path:'groups', component:GroupsComponent},
   {path: 'groupAdmin/:groupNumber', component:GroupAdminComponent},
   {path:'admin', component:AdminComponent},
-  {path:'group/:groupNumber', component:GroupComponent}
+  {path:'group/:groupID', component:GroupComponent}
 ];
 
 @NgModule({

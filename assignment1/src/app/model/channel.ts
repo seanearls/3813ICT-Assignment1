@@ -1,7 +1,9 @@
 import { User } from "./user";
 
 export interface Channel {
-    ID: number;
+    chanID: number;
+    groupID: number;
     cName: string;
+    messages: [];
     users: User[];
 }

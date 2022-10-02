@@ -33,12 +33,12 @@ export class GroupsComponent implements OnInit {
   groupName: string = "";
   channelName: string;
   admins: string[];
-  newId: number;
+  newID: number;
 
   ngOnInit() {
+    this.getLastGroup();
     this.getGroups();
     this.getAdmins();
-    this.getLastGroup();
   }
 
 
@@ -88,10 +88,14 @@ export class GroupsComponent implements OnInit {
     this.router.navigateByUrl('/groupAdmin/' + groupNumber);
   }
 
+  openGroup(groupID: number) {
+    this.router.navigateByUrl('/group/' + groupID)
+  }
+
   getLastGroup(){
     this.GroupService.getGroups().subscribe (res => {
       if (res.groups) {
-        this.newId = res.groups.length + 1;
+        this.newID = res.groups.length + 1;
       }
     })
   }
@@ -101,10 +105,11 @@ export class GroupsComponent implements OnInit {
       alert("Please enter a group name.")
       return;
     } else {
-      this.httpClient.post<Group>(serverURL + '/newGroup', {newId: this.newId, gName: this.groupName, users: this.admins, assistants: this.admins})
+      this.httpClient.post<Group>(serverURL + '/newGroup', {newID: this.newID, gName: this.groupName, users: this.admins, assistants: this.admins})
       .subscribe((data: any) => {
         if(data.groupMade) {
           this.groupName = "";
+          this.newID += 1;
 
           this.GroupService.getGroups().subscribe(res => {
             if (res.groups) {
