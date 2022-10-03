@@ -78,9 +78,11 @@ export class AdminComponent implements OnInit {
   onNewUser(){
     if(this.username === "" || this.email === "" || this.role === "" || this.upwd === "" || this.cupwd === ""){
       alert("Fill in all fields to register a user.");
+      return;
     } else {
       if (this.upwd !== this.cupwd) {
         alert("Passwords do not match.");
+        return;
       } else {
         this.http.post<User>(serverURL + "/onNewUser", {username: this.username, email: this.email, role: this.role, upwd: this.upwd})
         .subscribe((data: any) => {
@@ -91,6 +93,7 @@ export class AdminComponent implements OnInit {
             this.role = "";
             this.upwd = "";
             this.cupwd = "";
+            return;
           }
           if (data.registered) {
             alert(this.username + " registered.");
