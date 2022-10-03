@@ -19,9 +19,11 @@ export class AdminComponent implements OnInit {
   constructor(private router: Router, public UserService: UserService, private http: HttpClient) { }
   adminUsername = JSON.parse(sessionStorage.getItem('username')!);
   adminRole = JSON.parse(sessionStorage.getItem('role')!);
-  username: string;
-  email: string;
-  role: string;
+  username: string = "";
+  email: string = "";
+  role: string = "";
+  upwd: string = "";
+  cupwd: string ="";
   user: User;
   isSelected = false;
  
@@ -74,25 +76,39 @@ export class AdminComponent implements OnInit {
 
   //Registering a new user
   onNewUser(){
-    if(this.username === "" || this.email === "" || this.role === ""){
+    if(this.username === "" || this.email === "" || this.role === "" || this.upwd === "" || this.cupwd === ""){
       alert("Fill in all fields to register a user.");
     } else {
-      this.http.post<User>(serverURL + "/onNewUser", {username: this.username, email: this.email, role: this.role})
-      .subscribe((data: any) => {
-        if (data.registered) {
-          alert(this.username + " registered.");
-          this.username = "";
-          this.email = "";
-          this.role = "";
+      if (this.upwd !== this.cupwd) {
+        alert("Passwords do not match.");
+      } else {
+        this.http.post<User>(serverURL + "/onNewUser", {username: this.username, email: this.email, role: this.role, upwd: this.upwd})
+        .subscribe((data: any) => {
+          if (data.existing) {
+            alert('The username "' + this.username +'" is already taken.')
+            this.username = "";
+            this.email = "";
+            this.role = "";
+            this.upwd = "";
+            this.cupwd = "";
+          }
+          if (data.registered) {
+            alert(this.username + " registered.");
+            this.username = "";
+            this.email = "";
+            this.role = "";
+            this.upwd = "";
+            this.cupwd = "";
 
-          this.UserService.getUsers().subscribe (res => {
-            if (res.users) {
-              this.users = res.users;
-              console.log(this.users);
-            }
-          });
-        }
-      });
+            this.UserService.getUsers().subscribe (res => {
+              if (res.users) {
+                this.users = res.users;
+                console.log(this.users);
+              }
+            });
+          }
+        });
+      }
     }
   }
 
