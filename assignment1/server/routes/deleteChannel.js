@@ -2,39 +2,24 @@ const express = require('express'); //Import express module
 const router = express.Router(); //Calling top-level express function
 const path = require('path');
 const fs = require('fs');
-
-/////Route for deleting a channel
+const MongoClient = require('mongodb').MongoClient;
+const url = 'mongodb://localhost:27017';
 
 router.post('/', (req, res) => {
-    var deleted = req.body.deleted
-    var toDelete;
-    var groupName = req.body.group
+    var chanID = req.body.chanID
+    var groupID = req.body.groupID
 
-    fs.readFile('groups.json', 'utf-8', function(err, data) {
-        if (err) {
-            console.log(err);
-        } else {
-            toDelete = JSON.parse(data);
+    MongoClient.connect(url, {maxPoolSize: 10}, function(err, client) {
+        if(err){return console.log(err)}
+        const dbName='chat_app'
+        const db = client.db(dbName);
+        const collection = db.collection('channels');
 
-            for (group in toDelete) {
-                if (toDelete[group].gName == groupName) {
-                    for (channel in toDelete[group].channel) {
-                        if (toDelete[group].channel[channel].cName == deleted) {
-                            delete toDelete[group].channel[channel];
-                            break;
-                        }
-                    }
-                }
-            }
-
-
-            let newData = JSON.stringify(toDelete);
-            fs.writeFile('groups.json', newData, 'utf-8', function(err) {
-                if (err) throw err;
-            res.send({'cName': deleted, 'deleted': true});
-            })
-        }
+        collection.deleteOne({'chanID':chanID, 'groupID':groupID})
+        .then(res.send({'chanID':chanID, 'groupID':groupID, 'deleted':true}))
+        .catch(err => console.log(err));
     })
-});
+})
+
 
 module.exports = router;

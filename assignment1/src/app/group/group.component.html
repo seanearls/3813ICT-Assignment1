@@ -4,6 +4,7 @@
     <ng-container *ngFor="let channel of channels">
         <th class="thead-dark">{{ channel.cName }}</th>
         <button type="button" (click)="openChannel(channel.chanID)">Open</button>
+        <button type="button" (click)="deleteChannel(channel.chanID)">Delete</button>
     </ng-container>
 </table>
 

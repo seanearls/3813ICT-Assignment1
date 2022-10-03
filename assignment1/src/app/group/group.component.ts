@@ -118,4 +118,25 @@ export class GroupComponent implements OnInit {
     }
   }
 
+  deleteChannel(chanID: number) {
+    this.httpClient.post(serverURL + '/deleteChannel', {chanID: chanID, groupID: this.groupID})
+    .subscribe((data: any) => {
+      if (data.deleted) {
+        alert('Channek with ID: ' + data.chanID + ' deleted.')
+
+        this.httpClient.post<any>(serverURL + '/getChannels', this.channels).subscribe(res => {
+          if (res.channels) {
+            let validChannels = []
+            for (let channel in res.channels){
+              if (res.channels[channel].groupID === this.groupID){
+                validChannels.push(res.channels[channel]);
+              }
+            }
+            this.channels = validChannels;
+          }
+        });
+      }
+    })
+  }
+
 }
