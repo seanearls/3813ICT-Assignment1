@@ -43,7 +43,6 @@ export class AdminComponent implements OnInit {
     this.UserService.getUsers().subscribe (res => {
       if (res.users) {
         this.users = res.users;
-        console.log(this.users);
       }
     });
 
@@ -119,7 +118,6 @@ export class AdminComponent implements OnInit {
   }
 
   getLastUserID(){
-    let checker = [];
     this.UserService.getUsers().subscribe (res => {
       if (res.users) {
         this.newID = res.users.length + 1;
