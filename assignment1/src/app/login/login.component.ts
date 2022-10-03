@@ -20,21 +20,21 @@ export class LoginComponent implements OnInit {
 
   }
 
-  username:string;
+  username:string = "";
   role: string;
+  upwd: string = "";
 
 
   ngOnInit(): void {
   }
 
   onLogin() {
-    let user = {username: this.username};
-    if (this.username === "") {
-      alert("Please enter a username.");
+    if (this.username === "" || this.upwd === "") {
+      alert("Please enter a username and password.");
       return;
     }
     
-    this.httpClient.post(serverURL + '/auth', user, httpOptions).subscribe((data: any) => {
+    this.httpClient.post(serverURL + '/auth', {username: this.username, upwd: this.upwd}, httpOptions).subscribe((data: any) => {
       if (data.valid){
         sessionStorage.setItem('username', JSON.stringify(data.username));
         sessionStorage.setItem('email', JSON.stringify(data.email));
@@ -44,6 +44,10 @@ export class LoginComponent implements OnInit {
         .then(() => {
           window.location.reload();
         })
+      } else {
+        this.username ="";
+        this.upwd="";
+        alert("Incorrect username or password.");
       }
     });
   }

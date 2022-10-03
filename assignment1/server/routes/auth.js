@@ -11,14 +11,22 @@ router.post('/', function(req, res){
         const db = client.db(dbName);
         const collection = db.collection('users');
         let username = req.body.username;
-        let user = {}
+        let upwd = req.body.upwd;
 
         collection.findOne({'username':username})
         .then(response => {
-            user = {'username':response.username, 'email':response.email, 'role':response.role, 'valid':true}
-            res.send(user);
+            if (response){
+                if (response.upwd === upwd){
+                    if (upwd === response.upwd){
+                        user = {'username':response.username, 'email':response.email, 'role':response.role, 'valid':true}
+                        res.send(user);
+                    }
+                } else {
+                    res.send({'username': "", "valid": false});
+                }
+            }
         })
-        .catch(err => console.log(err))
+        .catch(err => console.log(err));
     })
 });
 
