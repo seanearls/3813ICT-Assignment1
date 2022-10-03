@@ -98,6 +98,11 @@ export class GroupComponent implements OnInit {
     } else {
       this.httpClient.post<Channel>(serverURL + '/newChannel', {groupID: this.groupID, newID: this.newID, cName: this.channelName, users: this.admins})
       .subscribe((data: any) => {
+        if(data.existing){
+          alert('Channel name "' + this.channelName + '" already exists in this group.');
+          this.channelName = "";
+          return;
+        }
         if(data.channelMade) {
           this.channelName = "";
           this.newID += 1;
@@ -122,7 +127,7 @@ export class GroupComponent implements OnInit {
     this.httpClient.post(serverURL + '/deleteChannel', {chanID: chanID, groupID: this.groupID})
     .subscribe((data: any) => {
       if (data.deleted) {
-        alert('Channek with ID: ' + data.chanID + ' deleted.')
+        alert('Channel with ID: ' + data.chanID + ' deleted.')
 
         this.httpClient.post<any>(serverURL + '/getChannels', this.channels).subscribe(res => {
           if (res.channels) {

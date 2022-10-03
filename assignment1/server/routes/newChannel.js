@@ -17,14 +17,22 @@ router.post('/', (req, res) => {
         const db = client.db(dbName);
         const collection = db.collection('channels');
 
-        collection.insertOne({
-            'groupID': groupID,
-            'chanID': newID,
-            'cName': channelName,
-            'messages': [],
-            'users': admins
+        collection.findOne({'groupID': groupID, 'cName': channelName})
+        .then(response => {
+            if(response){
+                res.send({'channelName':channelName, 'channelMade': false, 'existing': true});
+            } else {
+                collection.insertOne({
+                    'groupID': groupID,
+                    'chanID': newID,
+                    'cName': channelName,
+                    'messages': [],
+                    'users': admins
+                })
+                .then(res.send({'channelName': channelName, 'channelMade': true}))
+                .catch(err => console.log(err));
+            }
         })
-        .then(res.send({'channelName': channelName, 'channelMade': true}))
         .catch(err => console.log(err));
     });
 });
