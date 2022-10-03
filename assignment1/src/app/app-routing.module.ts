@@ -4,14 +4,12 @@ import { AdminComponent } from './admin/admin.component';
 import { ChatComponent } from './chat/chat.component';
 import { GroupsComponent } from './groups/groups.component';
 import { LoginComponent } from './login/login.component';
-import { GroupAdminComponent } from './group-admin/group-admin.component';
 import { GroupComponent } from './group/group.component';
 
 const routes: Routes = [
   {path:'login', component:LoginComponent},
   {path:'chat/:groupNumber/:channelNumber', component:ChatComponent},
   {path:'groups', component:GroupsComponent},
-  {path: 'groupAdmin/:groupNumber', component:GroupAdminComponent},
   {path:'admin', component:AdminComponent},
   {path:'group/:groupID', component:GroupComponent}
 ];
