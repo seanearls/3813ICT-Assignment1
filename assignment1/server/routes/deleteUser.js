@@ -1,34 +1,21 @@
 const express = require('express'); //Import express module
 const router = express.Router(); //Calling top-level express function
-const path = require('path');
-const fs = require('fs');
-
-///////Route for deleting a user
-
+const MongoClient = require('mongodb').MongoClient;
+const url = 'mongodb://localhost:27017';
 
 router.post('/', (req, res) => {
+    MongoClient.connect(url, {maxPoolSize:10}, function(err, client) {
+        if(err){return console.log(err)}
+        const dbName = 'chat_app';
+        const collection = db.collection('users');
+        let username = req.body.username;
 
-    var deleted = req.body.username
-    var toDelete;
-
-    fs.readFile('users.json', 'utf-8', function(err, data) {
-        if (err) {
-            console.log(err);
+        if (username === "super") {
+            res.send({"username": username, "deleted": false, "isSuper": true});
         } else {
-            toDelete = JSON.parse(data);
-
-            for (user in toDelete) {
-                if (toDelete[user].username == deleted) {
-                    delete toDelete[user];
-                    break;
-                }
-            }
-            let newData = JSON.stringify(toDelete.filter(element => Object.keys(element).length));
-            console.log(newData);
-            fs.writeFile('users.json', newData, 'utf-8', function(err) {
-                if (err) throw err;
-            res.send({'username':deleted, 'deleted':true});
-            });
+            collection.deleteOne({'username': username})
+            .then(res.send({'username': username, 'deleted' :true}))
+            .catch(err => console.log(err));
         }
     });
 });
