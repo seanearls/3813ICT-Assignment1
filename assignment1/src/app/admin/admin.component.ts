@@ -25,6 +25,7 @@ export class AdminComponent implements OnInit {
   upwd: string = "";
   cupwd: string ="";
   user: User;
+  newID: number;
   isSelected = false;
  
   selectedUser: string;
@@ -38,6 +39,7 @@ export class AdminComponent implements OnInit {
   
 
   ngOnInit(): void {
+    this.getLastUserID();
     this.UserService.getUsers().subscribe (res => {
       if (res.users) {
         this.users = res.users;
@@ -84,7 +86,7 @@ export class AdminComponent implements OnInit {
         alert("Passwords do not match.");
         return;
       } else {
-        this.http.post<User>(serverURL + "/onNewUser", {username: this.username, email: this.email, role: this.role, upwd: this.upwd})
+        this.http.post<User>(serverURL + "/onNewUser", {username: this.username, email: this.email, role: this.role, upwd: this.upwd, ID: this.newID})
         .subscribe((data: any) => {
           if (data.existing) {
             alert('The username "' + this.username +'" is already taken.')
@@ -102,6 +104,7 @@ export class AdminComponent implements OnInit {
             this.role = "";
             this.upwd = "";
             this.cupwd = "";
+            this.newID += 1;
 
             this.UserService.getUsers().subscribe (res => {
               if (res.users) {
@@ -113,6 +116,15 @@ export class AdminComponent implements OnInit {
         });
       }
     }
+  }
+
+  getLastUserID(){
+    let checker = [];
+    this.UserService.getUsers().subscribe (res => {
+      if (res.users) {
+        this.newID = res.users.length + 1;
+      }
+    })
   }
 
 
