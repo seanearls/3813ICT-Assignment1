@@ -31,12 +31,17 @@ export class GroupComponent implements OnInit {
   admins: string[];
   newID: number;
   channels: Channel[];
+  users: User[];
+  addedUser: string = "";
+  addUsers: string[] = [];
+  removeUsers: string[];
 
 
   ngOnInit(){
     this.getChannels();
     this.getLastChannel();
     this.getAdmins();
+    this.removableUsers();
   }
 
   getChannels(){
@@ -142,6 +147,50 @@ export class GroupComponent implements OnInit {
         });
       }
     })
+  }
+
+  removableUsers(){
+    this.GroupService.getGroups().subscribe (res => {
+      if (res.groups) {
+        for (let group in res.groups) {
+          if (res.groups[group].ID === this.groupID) {
+            this.removeUsers = res.groups[group].users
+            console.log("Removable users: ", this.removeUsers);
+          }
+        }
+        this.addableUsers();
+      }
+    });
+  }
+
+  addableUsers(){
+    this.UserService.getUsers().subscribe (res => {
+      if(res.users){
+        for (let user in res.users) {
+          if(!(this.removeUsers.includes(res.users[user].username))) {
+            this.addUsers.push(res.users[user].username)
+          }
+        }
+        console.log("Addable users: ", this.addUsers);
+      }
+    });
+  }
+
+  addUser(){
+    this.httpClient.post(serverURL + '/addGroupUser', {user: this.addedUser, groupID: this.groupID})
+    .subscribe((data: any) => {
+      if (this.addedUser === ""){
+        alert("Please select a user.")
+      }
+      if(data.userAdded){
+        alert(this.addedUser + " added to the group.");
+        this.addedUser = "";
+      }
+    })
+  }
+
+  removeUser(){
+
   }
 
 }
