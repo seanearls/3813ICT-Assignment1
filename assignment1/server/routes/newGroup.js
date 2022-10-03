@@ -16,14 +16,23 @@ router.post('/', (req, res) => {
         const db = client.db(dbName);
         const collection = db.collection('groups');
         
-        collection.insertOne({
-            'ID': newID,
-            'gName': groupName,
-            'users': admins,
-            'assistants': admins
+        collection.findOne({'gName':groupName})
+        .then(response => {
+            if(response){
+                res.send({'groupName':groupName, 'groupMade': false, 'existing': true})
+            } else {
+                collection.insertOne({
+                    'ID': newID,
+                    'gName': groupName,
+                    'users': admins,
+                    'assistants': admins
+                })
+                .then(res.send({'groupName': groupName, 'groupMade': true}))
+                .catch(err => console.log(err));
+            }
         })
-        .then(res.send({'groupName': groupName, 'groupMade': true}))
         .catch(err => console.log(err));
+        
     });
 });
 

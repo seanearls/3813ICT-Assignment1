@@ -107,6 +107,11 @@ export class GroupsComponent implements OnInit {
     } else {
       this.httpClient.post<Group>(serverURL + '/newGroup', {newID: this.newID, gName: this.groupName, users: this.admins, assistants: this.admins})
       .subscribe((data: any) => {
+        if(data.existing){
+          alert('Group name "' + this.groupName + '" is already taken.')
+          this.groupName = "";
+          return;
+        }
         if(data.groupMade) {
           this.groupName = "";
           this.newID += 1;
