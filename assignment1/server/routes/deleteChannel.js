@@ -1,7 +1,5 @@
 const express = require('express'); //Import express module
 const router = express.Router(); //Calling top-level express function
-const path = require('path');
-const fs = require('fs');
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017';
 
