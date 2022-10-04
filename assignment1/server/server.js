@@ -65,3 +65,11 @@ app.use('/addGroupUser', addGroupUserRoute);
 //////Remove User from Group
 const removeGroupUserRoute = require('./routes/removeGroupUser');
 app.use('/removeGroupUser', removeGroupUserRoute);
+
+//////Add Assistant to Group
+const addGroupAssistantRoute = require('./routes/addGroupAssistant');
+app.use('/addGroupAssistant', addGroupAssistantRoute);
+
+//////Remove Assistant from Group
+const removeGroupAssistantRoute = require('./routes/removeGroupAssistant');
+app.use('/removeGroupAssistant', removeGroupAssistantRoute);
