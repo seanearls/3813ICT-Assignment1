@@ -225,6 +225,7 @@ export class GroupComponent implements OnInit {
           console.log("Current non-assistants: ", this.addAssistants);
         }
     })
+    //this.removeAdminsFrom();
   }
 
   removeAdminsFrom(){
