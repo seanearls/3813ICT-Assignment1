@@ -128,7 +128,22 @@ export class AdminComponent implements OnInit {
 
   //Edit a current user
   onEdit(){
-   return; 
+   this.http.post<User>(serverURL + '/editUser', {username: this.selectedUser, newUsername: this.sUsername, email: this.sEmail, role: this.sRole})
+   .subscribe((data: any) => {
+    if (data.success) {
+      alert(data.username + " updated successfuly.")
+      this.sUsername = "";
+      this.sEmail = "";
+      this.sRole = "";
+
+      this.UserService.getUsers().subscribe (res => {
+        if (res.users) {
+          this.users = res.users;
+        }
+      })
+      this.isSelected = false;
+    }
+   })
   }
 
 
@@ -155,6 +170,7 @@ export class AdminComponent implements OnInit {
               console.log(this.users);
             }
           });
+          this.isSelected = false;
         }
       })
 

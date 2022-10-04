@@ -7,6 +7,7 @@ router.post('/', (req, res) => {
     MongoClient.connect(url, {maxPoolSize:10}, function(err, client) {
         if(err){return console.log(err)}
         const dbName = 'chat_app';
+        const db = client.db(dbName);
         const collection = db.collection('users');
         let username = req.body.username;
 
