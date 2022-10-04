@@ -9,18 +9,17 @@ router.post('/', (req, res) => {
 
     MongoClient.connect(url, {maxPoolSize:10}, function(err, client) {
         if(err){return console.log(err)}
-        const dbName='chat_app'
+        const dbName='chat_app';
         const db = client.db(dbName);
         const collection = db.collection('groups');
 
         collection.updateOne(
             {"ID": groupID},
-            { $push: { 'assistants': username }}
+            { $pull: { "assistants": username }}
         )
-        .then(res.send({'addedAssistant':username, 'userPromoted': true}))
+        .then(res.send({'removedAssistant':username, 'userDemoted': true}))
         .catch(err => console.log(err));
     });
 });
-
 
 module.exports = router;

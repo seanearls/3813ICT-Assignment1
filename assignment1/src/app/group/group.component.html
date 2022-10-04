@@ -48,3 +48,33 @@
         <button class="btn btn-primary" type="button" (click)="removeUser()">Remove</button>
     </form>
 </ng-container>
+
+<ng-container *ngIf="role === 'super' || role ==='admin'">
+    <form>
+        <h3>Add Assistant to Group</h3>
+        <div class="form-group">
+            <label class="form-label" for="addedAssistant">Select User</label>
+            <select class="form-control" [(ngModel)]="addedAssistant" name="addedAssistant">
+                <option *ngFor="let user of addAssistants" value="{{user}}">
+                    {{user}}
+                </option>
+            </select>
+        </div>
+        <button class="btn btn-primary" type="button" (click)="addAssistant()">Add</button>
+    </form>
+</ng-container>
+
+<ng-container *ngIf="role === 'super' || role ==='admin'">
+    <form>
+        <h3>Remove Assistant From Group</h3>
+        <div class="form-group">
+            <label class="form-label" for="removedAssistant">Select User</label>
+            <select class="form-control" [(ngModel)]="removedAssistant" name="removedAssistant">
+                <option *ngFor="let user of removeAssistants" value="{{user}}">
+                    {{user}}
+                </option>
+            </select>
+        </div>
+        <button class="btn btn-primary" type="button" (click)="removeAssistant()">Remove</button>
+    </form>
+</ng-container>

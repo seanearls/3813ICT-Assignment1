@@ -37,12 +37,19 @@ export class GroupComponent implements OnInit {
   addUsers: string[] = [];
   removeUsers: string[];
 
+  addedAssistant: string = "";
+  removedAssistant: string = "";
+  addAssistants: string[] = [];
+  removeAssistants: string[] = [];
+
+
 
   ngOnInit(){
     this.getChannels();
     this.getLastChannel();
     this.getAdmins();
     this.removableUsers();
+    this.removableAssistants();
   }
 
   getChannels(){
@@ -177,9 +184,111 @@ export class GroupComponent implements OnInit {
     });
   }
 
+  removableAssistants(){
+    this.GroupService.getGroups().subscribe (res => {
+      if(res.groups) {
+        for (let group in res.groups) {
+          if (res.groups[group].ID === this.groupID) {
+            this.removeAssistants = res.groups[group].assistants;
+            this.addableAssistants()
+          }
+        }
+        this.UserService.getUsers().subscribe (res => {
+          if(res.users) {
+            for (let user in res.users) {
+              if (res.users[user].role === 'super' || res.users[user].role === 'admin') {
+                let index = this.removeAssistants.indexOf(res.users[user].username, 0);
+                if (index > -1) {
+                  this.removeAssistants.splice(index, 1);
+                }
+              }
+            }
+          }
+        })
+        console.log("Current assistants: ",this.removeAssistants);
+      }
+    });
+  }
+
+  addableAssistants(){
+      this.GroupService.getGroups().subscribe (res => {
+        if (res.groups){
+          for (let group in res.groups){
+            if (res.groups[group].ID === this.groupID) {
+              for (let user in res.groups[group].users){
+                if(!(this.removeAssistants.includes(res.groups[group].users[user]))){
+                  this.addAssistants.push(res.groups[group].users[user]);
+                }
+              }
+            }
+          }
+          console.log("Current non-assistants: ", this.addAssistants);
+        }
+    })
+  }
+
+  removeAdminsFrom(){
+    this.UserService.getUsers().subscribe (res => {
+      if (res.users){
+        for (let user in res.users){
+          if(res.users[user].role === 'super' || res.users[user].role === 'admin'){
+            let index = this.addAssistants.indexOf(res.users[user].username, 0);
+            if (index > -1) {
+              this.addAssistants.splice(index, 1);
+            }
+          }
+        }
+      }
+    });
+  }
+
+  addAssistant(){
+    if (this.addedAssistant === ""){
+      alert("Please select a user to promote.")
+      return;
+    } else {
+      this.httpClient.post<any>(serverURL + '/addGroupAssistant', {user: this.addedAssistant, groupID: this.groupID})
+      .subscribe((data: any) => {
+        if(data.userPromoted){
+          alert(this.addedAssistant + " promoted to group assistant.");
+          let index = this.addAssistants.indexOf(this.addedAssistant, 0);
+          if (index > -1) {
+            this.addAssistants.splice(index, 1);
+          }
+          this.removableAssistants();
+          this.addedAssistant = "";
+          this.removedAssistant = "";
+          this.removeAssistants.push(this.addedAssistant);
+        }
+      });
+    }
+  }
+
+  removeAssistant(){
+    if (this.removedAssistant === ""){
+      alert("Please select an assistant to demote.");
+      return;
+    } else {
+      this.httpClient.post<any>(serverURL + '/removeGroupAssistant', {user: this.removedAssistant, groupID: this.groupID})
+      .subscribe((data: any) => {
+        if(data.userDemoted){
+          alert(this.removedAssistant + " demoted from assistant.");
+          let index = this.removeAssistants.indexOf(this.removedAssistant, 0);
+          if(index > -1){
+            this.removeAssistants.splice(index, 1);
+          }
+          this.removableAssistants();
+          this.addAssistants.push(this.addedAssistant);
+        }
+      });
+      this.addedAssistant = "";
+      this.removedAssistant = "";
+    }
+  }
+
   addUser(){
     if (this.addedUser === ""){
-      alert("Please select a userto add.")
+      alert("Please select a user to add.")
       return;
     } else {
       this.httpClient.post<any>(serverURL + '/addGroupUser', {user: this.addedUser, groupID: this.groupID})
