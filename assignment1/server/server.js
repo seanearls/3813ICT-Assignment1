@@ -28,7 +28,7 @@ app.use('/onNewUser', newUserRoute);
 
 //////Edit User
 const editUserRoute = require('./routes/editUser');
-//app.use('/editUser', editUserRoute);
+app.use('/editUser', editUserRoute);
 
 //////Delete User
 const deleteRoute = require('./routes/deleteUser');
