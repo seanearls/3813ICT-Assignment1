@@ -6,7 +6,6 @@ const url = 'mongodb://localhost:27017';
 router.post('/', (req, res) => {
     var username = req.body.user;
     var groupID = req.body.groupID;
-    console.log(username, groupID);
 
     MongoClient.connect(url, {maxPoolSize:10}, function(err, client) {
         if(err){return console.log(err)}
