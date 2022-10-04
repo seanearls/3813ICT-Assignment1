@@ -33,6 +33,7 @@ export class GroupComponent implements OnInit {
   channels: Channel[];
   users: User[];
   addedUser: string = "";
+  removedUser: string = "";
   addUsers: string[] = [];
   removeUsers: string[];
 
@@ -177,20 +178,45 @@ export class GroupComponent implements OnInit {
   }
 
   addUser(){
-    this.httpClient.post(serverURL + '/addGroupUser', {user: this.addedUser, groupID: this.groupID})
-    .subscribe((data: any) => {
-      if (this.addedUser === ""){
-        alert("Please select a user.")
-      }
-      if(data.userAdded){
-        alert(this.addedUser + " added to the group.");
-        this.addedUser = "";
-      }
-    })
+    if (this.addedUser === ""){
+      alert("Please select a userto add.")
+      return;
+    } else {
+      this.httpClient.post<any>(serverURL + '/addGroupUser', {user: this.addedUser, groupID: this.groupID})
+      .subscribe((data: any) => {
+        if(data.userAdded){
+          alert(this.addedUser + " added to the group.");
+          let index = this.addUsers.indexOf(this.addedUser, 0);
+          if (index > -1) {
+            this.addUsers.splice(index, 1);
+          }
+          this.removeUsers.push(this.addedUser);
+          console.log("Removable users: ", this.removeUsers);
+          console.log("Addable users: ", this.addUsers);
+        }
+      })
+    }
   }
 
   removeUser(){
-
+    if (this.removedUser === ""){
+      alert("Please select user to remove.")
+      return;
+    } else {
+      this.httpClient.post<any>(serverURL + '/removeGroupUser', {user: this.removedUser, groupID: this.groupID})
+      .subscribe((data: any) => {
+        if(data.userRemoved){
+          alert(this.removedUser + " removed from the group.");
+          let index = this.removeUsers.indexOf(this.removedUser, 0);
+          if (index > -1){
+            this.removeUsers.splice(index, 1);
+          }
+          this.addUsers.push(this.removedUser);
+          console.log("Removable users: ", this.removeUsers);
+          console.log("Addable users: ", this.addUsers);
+        }
+      })
+    }
   }
 
 }

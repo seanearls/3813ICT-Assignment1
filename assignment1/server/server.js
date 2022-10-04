@@ -60,4 +60,8 @@ app.use('/deleteChannel', deleteChannelRoute);
 
 /////Add User to Group
 const addGroupUserRoute = require('./routes/addGroupUser');
-app.use('/addGroupUser', addGroupUserRoute)
+app.use('/addGroupUser', addGroupUserRoute);
+
+//////Remove User from Group
+const removeGroupUserRoute = require('./routes/removeGroupUser');
+app.use('/removeGroupUser', removeGroupUserRoute);

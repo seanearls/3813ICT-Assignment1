@@ -1,32 +1,27 @@
 const app = require('express');
 const router = app.Router();
-const bodyParser = require('body-parser');
-const fs = require('fs');
+const MongoClient = require('mongodb').MongoClient;
+const url = 'mongodb://localhost:27017';
 
-//Route for adding a user to a group
 router.post('/', (req, res) => {
-    var newUser = {};
-    var user = req.body.user
-    var group = req.body.group
+    var username = req.body.user;
+    var groupID = req.body.groupID;
+    console.log(username, groupID);
 
-    fs.readFile('groups.json', 'utf-8', function(err, data) {
-        if (err) {
-            console.log(err);
-        } else {
-            newUser = JSON.parse(data);
+    MongoClient.connect(url, {maxPoolSize:10}, function(err, client) {
+        if(err){return console.log(err)}
+        const dbName='chat_app'
+        const db = client.db(dbName);
+        const collection = db.collection('groups');
 
-            for (let group in newUser) {
-                if (newUser[group].gName === group) {
-                    newUser[group].users.push(user)
-                }
-            }
-            newUser = JSON.stringify(newUser);
-            fs.writeFile('groups.json', newUser, 'utf-8', function (err) {
-                if (err) throw err;
-            res.send({"user": newUser, 'added': true});
-            });
-        }
+        collection.updateOne(
+            {"ID": groupID},
+            { $push: { 'users': username }}
+        )
+        .then(res.send({'addedUser':username, 'userAdded': true}))
+        .catch(err => console.log(err));
     });
 });
+
 
 module.exports = router;

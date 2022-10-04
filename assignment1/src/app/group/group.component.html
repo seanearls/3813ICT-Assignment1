@@ -17,16 +17,34 @@
         </div>
         <button class="btn btn-primary" type="button" (click)="addChannel()">Create Channel</button>
     </form>
+</ng-container>
 
+<ng-container *ngIf="role === 'super' || role ==='admin'">
     <form>
         <h3>Add User to Group</h3>
         <div class="form-group">
-            <label class="form-label" for="addUser">Select User</label>
-            <select class="form-control" [(ngModel)]="addUser" name="addUser">
-                <option *ngFor="let user of addUsers" value="{{user}}}">
+            <label class="form-label" for="addedUser">Select User</label>
+            <select class="form-control" [(ngModel)]="addedUser" name="addedUser">
+                <option *ngFor="let user of addUsers" value="{{user}}">
                     {{user}}
                 </option>
             </select>
         </div>
+        <button class="btn btn-primary" type="button" (click)="addUser()">Add</button>
+    </form>
+</ng-container>
+
+<ng-container *ngIf="role === 'super' || role ==='admin'">
+    <form>
+        <h3>Remove User From Group</h3>
+        <div class="form-group">
+            <label class="form-label" for="removedUser">Select User</label>
+            <select class="form-control" [(ngModel)]="removedUser" name="removedUser">
+                <option *ngFor="let user of removeUsers" value="{{user}}">
+                    {{user}}
+                </option>
+            </select>
+        </div>
+        <button class="btn btn-primary" type="button" (click)="removeUser()">Remove</button>
     </form>
 </ng-container>
