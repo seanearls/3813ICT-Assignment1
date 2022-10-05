@@ -55,7 +55,7 @@
         <div class="form-group">
             <label class="form-label" for="addedAssistant">Select User</label>
             <select class="form-control" [(ngModel)]="addedAssistant" name="addedAssistant">
-                <option *ngFor="let user of addAssistants" value="{{user}}">
+                <option *ngFor="let user of nonAssistants" value="{{user}}">
                     {{user}}
                 </option>
             </select>
@@ -70,7 +70,7 @@
         <div class="form-group">
             <label class="form-label" for="removedAssistant">Select User</label>
             <select class="form-control" [(ngModel)]="removedAssistant" name="removedAssistant">
-                <option *ngFor="let user of removeAssistants" value="{{user}}">
+                <option *ngFor="let user of assistants" value="{{user}}">
                     {{user}}
                 </option>
             </select>

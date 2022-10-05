@@ -28,7 +28,6 @@ export class GroupComponent implements OnInit {
   valid = JSON.parse(sessionStorage.getItem('valid')!);
   groupID: number=Number(this.route.snapshot.paramMap.get('groupID'))
   channelName: string = "";
-  admins: string[];
   newID: number;
   channels: Channel[];
   users: User[];
@@ -42,6 +41,12 @@ export class GroupComponent implements OnInit {
   addAssistants: string[] = [];
   removeAssistants: string[] = [];
 
+  supers: string[];
+  admins: string[];
+  assistants: string[];
+  nonAssistants: string[];
+
+
 
 
   ngOnInit(){
@@ -49,7 +54,7 @@ export class GroupComponent implements OnInit {
     this.getLastChannel();
     this.getAdmins();
     this.removableUsers();
-    this.removableAssistants();
+    this.getRoles();
   }
 
   getChannels(){
@@ -184,48 +189,20 @@ export class GroupComponent implements OnInit {
     });
   }
 
-  removableAssistants(){
-    this.GroupService.getGroups().subscribe (res => {
-      if(res.groups) {
-        for (let group in res.groups) {
-          if (res.groups[group].ID === this.groupID) {
-            this.removeAssistants = res.groups[group].assistants;
-            this.addableAssistants()
-          }
-        }
-        this.UserService.getUsers().subscribe (res => {
-          if(res.users) {
-            for (let user in res.users) {
-              if (res.users[user].role === 'super' || res.users[user].role === 'admin') {
-                let index = this.removeAssistants.indexOf(res.users[user].username, 0);
-                if (index > -1) {
-                  this.removeAssistants.splice(index, 1);
-                }
-              }
-            }
-          }
-        })
-        console.log("Current assistants: ",this.removeAssistants);
+  getRoles(){
+    this.httpClient.post<any>(serverURL + '/getAssistants', {groupID: this.groupID, role: this.role})
+    .subscribe((data: any) => {
+      if (data) {
+        this.supers = data.supers;
+        this.admins = data.admins;
+        this.nonAssistants = data.nonAssistants;
+        this.assistants = data.assistants;
       }
+      console.log("Supers: " + this.supers);
+      console.log("Admins: " + this.admins);
+      console.log("Users that can be promoted: " + this.nonAssistants);
+      console.log("Users you can demote: " + this.assistants);
     });
-  }
-
-  addableAssistants(){
-      this.GroupService.getGroups().subscribe (res => {
-        if (res.groups){
-          for (let group in res.groups){
-            if (res.groups[group].ID === this.groupID) {
-              for (let user in res.groups[group].users){
-                if(!(this.removeAssistants.includes(res.groups[group].users[user]))){
-                  this.addAssistants.push(res.groups[group].users[user]);
-                }
-              }
-            }
-          }
-          console.log("Current non-assistants: ", this.addAssistants);
-        }
-    })
-    //this.removeAdminsFrom();
   }
 
   removeAdminsFrom(){
@@ -256,7 +233,7 @@ export class GroupComponent implements OnInit {
           if (index > -1) {
             this.addAssistants.splice(index, 1);
           }
-          this.removableAssistants();
+          this.getRoles();
           this.addedAssistant = "";
           this.removedAssistant = "";
           this.removeAssistants.push(this.addedAssistant);
@@ -278,7 +255,7 @@ export class GroupComponent implements OnInit {
           if(index > -1){
             this.removeAssistants.splice(index, 1);
           }
-          this.removableAssistants();
+          this.getRoles();
           this.addAssistants.push(this.addedAssistant);
         }
       });

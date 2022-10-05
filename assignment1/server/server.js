@@ -73,3 +73,6 @@ app.use('/addGroupAssistant', addGroupAssistantRoute);
 //////Remove Assistant from Group
 const removeGroupAssistantRoute = require('./routes/removeGroupAssistant');
 app.use('/removeGroupAssistant', removeGroupAssistantRoute);
+
+const getAssistantsRoute = require('./routes/getAssistants');
+app.use('/getAssistants', getAssistantsRoute);
