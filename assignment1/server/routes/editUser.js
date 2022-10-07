@@ -3,6 +3,8 @@ const router = express.Router(); //Calling top-level express function
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017';
 
+//////Editing a users details.
+
 router.post('/', (req, res) => {
     var username = req.body.username;
     var newUsername = req.body.newUsername;
@@ -15,6 +17,7 @@ router.post('/', (req, res) => {
         const db = client.db(dbName);
         const collection = db.collection('users');
 
+        //Setting new details to the correspinding user.
         collection.updateOne(
             {"username": username},
             { $set: {

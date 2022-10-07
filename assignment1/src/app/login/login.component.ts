@@ -28,6 +28,8 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
+  //Used for logging in a user.
   onLogin() {
     if (this.username === "" || this.upwd === "") {
       alert("Please enter a username and password.");
@@ -36,12 +38,14 @@ export class LoginComponent implements OnInit {
     
     this.httpClient.post(serverURL + '/auth', {username: this.username, upwd: this.upwd}, httpOptions).subscribe((data: any) => {
       if (data.valid){
+        //Saving logged user in the session storage.
         sessionStorage.setItem('username', JSON.stringify(data.username));
         sessionStorage.setItem('email', JSON.stringify(data.email));
         sessionStorage.setItem('role', JSON.stringify(data.role));
         sessionStorage.setItem('valid', "true");
         this.router.navigateByUrl('groups')
         .then(() => {
+          //Reloads page to update navigation in the display as ngIf does not update automatically.
           window.location.reload();
         })
       } else {

@@ -3,6 +3,7 @@ const router = express.Router(); //Calling top-level express function
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017';
 
+//////Logging a user in.
 
 router.post('/', function(req, res){
     MongoClient.connect(url, {maxPoolSize:10}, function(err, client) {
@@ -13,14 +14,14 @@ router.post('/', function(req, res){
         let username = req.body.username;
         let upwd = req.body.upwd;
 
+        //Checking if the user exists.
         collection.findOne({'username':username})
         .then(response => {
             if (response){
+                //Checking if input password is correct.
                 if (response.upwd === upwd){
-                    if (upwd === response.upwd){
-                        user = {'username':response.username, 'email':response.email, 'role':response.role, 'valid':true}
-                        res.send(user);
-                    }
+                    user = {'username':response.username, 'email':response.email, 'role':response.role, 'valid':true}
+                    res.send(user);
                 } else {
                     res.send({'username': "", "valid": false});
                 }

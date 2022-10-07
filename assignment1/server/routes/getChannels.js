@@ -3,6 +3,8 @@ const router = express.Router(); //Calling top-level express function
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017';
 
+//////Retrieving all channels
+
 router.post('/', (req, res) => {
     MongoClient.connect(url, {maxPoolSize:10}, function(err, client) {
         if(err){return console.log(err)}

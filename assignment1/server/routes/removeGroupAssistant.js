@@ -3,6 +3,8 @@ const router = app.Router();
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017';
 
+//////Removing an assistant from a group
+
 router.post('/', (req, res) => {
     var username = req.body.user;
     var groupID = req.body.groupID;
@@ -13,6 +15,7 @@ router.post('/', (req, res) => {
         const db = client.db(dbName);
         const collection = db.collection('groups');
 
+        //removing the username from the assistant array in the corresponding group
         collection.updateOne(
             {"ID": groupID},
             { $pull: { "assistants": username }}

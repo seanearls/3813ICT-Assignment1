@@ -55,7 +55,7 @@ export class GroupsComponent implements OnInit {
             }
           }
         }
-        
+        //Removes groups from the display that the logged in user is not in.
         for (let group in validGroups) {
           for (let channel in validGroups[group].channel) {
              if (!validGroups[group].channel[channel].users.includes(this.username)) {
@@ -69,6 +69,8 @@ export class GroupsComponent implements OnInit {
     });
   }
 
+
+  //Retrieving admin list for permissions purposes.
   getAdmins(){
     let adminList: string[] = [];
     this.UserService.getUsers().subscribe (res => {
@@ -84,14 +86,13 @@ export class GroupsComponent implements OnInit {
     })
   }
 
-  openGroupAdmin(groupNumber: number) {
-    this.router.navigateByUrl('/groupAdmin/' + groupNumber);
-  }
-
+  //Navigates to the selected group page
   openGroup(groupID: number) {
     this.router.navigateByUrl('/group/' + groupID)
   }
 
+
+  //Retrieves the ID of the most recent group. Used for defining new ID for a new group.
   getLastGroup(){
     this.GroupService.getGroups().subscribe (res => {
       if (res.groups) {
@@ -100,6 +101,8 @@ export class GroupsComponent implements OnInit {
     })
   }
 
+
+  //Adds a new group
   addGroup() {
     if(this.groupName === "") {
       alert("Please enter a group name.")
@@ -116,6 +119,7 @@ export class GroupsComponent implements OnInit {
           this.groupName = "";
           this.newID += 1;
 
+          //Getting groups to display updated group list.
           this.GroupService.getGroups().subscribe(res => {
             if (res.groups) {
               this.groups = res.groups;
@@ -126,12 +130,15 @@ export class GroupsComponent implements OnInit {
     }
   }
 
+
+  //Deletes a group
   deleteGroup(ID: number) {
     this.httpClient.post(serverURL + '/deleteGroup', {ID: ID})
     .subscribe((data: any) => {
       if (data.deleted) {
         alert('Group with ID: ' + data.ID + ' deleted.')
 
+        //Getting groups to display updated group list.
         this.GroupService.getGroups().subscribe(res => {
           if (res.groups) {
             this.groups = res.groups;
@@ -140,10 +147,4 @@ export class GroupsComponent implements OnInit {
       }
     })
   }
-
-
-  openChannel(groupNumber:number, channelNumber:number) {
-    this.router.navigateByUrl('/chat/' + groupNumber + '/' + channelNumber);
-  }
-
 }

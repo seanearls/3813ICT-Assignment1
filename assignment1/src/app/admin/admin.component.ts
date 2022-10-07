@@ -117,6 +117,8 @@ export class AdminComponent implements OnInit {
     }
   }
 
+
+  //Retrieves the most recent User ID from the database so. Used for creating a new user with the most recent ID + 1.
   getLastUserID(){
     this.UserService.getUsers().subscribe (res => {
       if (res.users) {

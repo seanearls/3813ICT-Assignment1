@@ -57,6 +57,7 @@ export class GroupComponent implements OnInit {
     this.getRoles();
   }
 
+  //Retrireves the channels in the current group for the display.
   getChannels(){
     let validChannels: Channel[] = [];
     this.httpClient.post<any>(serverURL + '/getChannels', this.channels)
@@ -76,6 +77,7 @@ export class GroupComponent implements OnInit {
     })
   }
 
+  //Retrieves a list of admins for permission purposes.
   getAdmins(){
     let adminList: string[] = [];
     this.UserService.getUsers().subscribe (res => {
@@ -91,10 +93,12 @@ export class GroupComponent implements OnInit {
     })
   }
 
+  //Navigates to the selected channel page.
   openChannel(channelID: number){
     this.router.navigateByUrl('/chat/' + channelID)
   }
 
+  //Retrieves the most recent channel ID, used for setting the ID of a newly created channel.
   getLastChannel(){
     let checker = [];
     this.httpClient.post<any>(serverURL + '/getChannels', this.channels).subscribe (res => {
@@ -109,6 +113,8 @@ export class GroupComponent implements OnInit {
     })
   }
 
+
+  //Adds a channel to the group.
   addChannel() {
     if (this.channelName === "") {
       alert("Please enter a channel name.")
@@ -125,6 +131,7 @@ export class GroupComponent implements OnInit {
           this.channelName = "";
           this.newID += 1;
 
+          //Updating list of channels in the group for the display.
           this.httpClient.post<any>(serverURL + '/getChannels', this.channels).subscribe(res => {
             if (res.channels) {
               let validChannels = []
@@ -141,12 +148,14 @@ export class GroupComponent implements OnInit {
     }
   }
 
+  //Deletes a channel from the group
   deleteChannel(chanID: number) {
     this.httpClient.post(serverURL + '/deleteChannel', {chanID: chanID, groupID: this.groupID})
     .subscribe((data: any) => {
       if (data.deleted) {
         alert('Channel with ID: ' + data.chanID + ' deleted.')
 
+        //Updating the list of channels in the group.
         this.httpClient.post<any>(serverURL + '/getChannels', this.channels).subscribe(res => {
           if (res.channels) {
             let validChannels = []
@@ -162,6 +171,7 @@ export class GroupComponent implements OnInit {
     })
   }
 
+  //Retrieves a list of users that can be removed from the group.
   removableUsers(){
     this.GroupService.getGroups().subscribe (res => {
       if (res.groups) {
@@ -176,6 +186,7 @@ export class GroupComponent implements OnInit {
     });
   }
 
+  //Retrieves a list of users that can be added to the group.
   addableUsers(){
     this.UserService.getUsers().subscribe (res => {
       if(res.users){
@@ -189,6 +200,7 @@ export class GroupComponent implements OnInit {
     });
   }
 
+  //Retrieves roles for permission purposes.
   getRoles(){
     this.httpClient.post<any>(serverURL + '/getAssistants', {groupID: this.groupID, role: this.role})
     .subscribe((data: any) => {
@@ -205,6 +217,8 @@ export class GroupComponent implements OnInit {
     });
   }
 
+
+  //
   removeAdminsFrom(){
     this.UserService.getUsers().subscribe (res => {
       if (res.users){
@@ -220,6 +234,8 @@ export class GroupComponent implements OnInit {
     });
   }
 
+
+  //Adds an assistant to the current group.
   addAssistant(){
     if (this.addedAssistant === ""){
       alert("Please select a user to promote.")
@@ -242,6 +258,8 @@ export class GroupComponent implements OnInit {
     }
   }
 
+
+  //Removes an assistant from the current group
   removeAssistant(){
     if (this.removedAssistant === ""){
       alert("Please select an assistant to demote.");
@@ -264,6 +282,8 @@ export class GroupComponent implements OnInit {
     }
   }
 
+
+  //Adds a user to the current group
   addUser(){
     if (this.addedUser === ""){
       alert("Please select a user to add.")
@@ -273,10 +293,13 @@ export class GroupComponent implements OnInit {
       .subscribe((data: any) => {
         if(data.userAdded){
           alert(this.addedUser + " added to the group.");
+
+          //Updating list of users that can be added to the group.
           let index = this.addUsers.indexOf(this.addedUser, 0);
           if (index > -1) {
             this.addUsers.splice(index, 1);
           }
+          //Updating list of users that can be removed to the group.
           this.removeUsers.push(this.addedUser);
           console.log("Removable users: ", this.removeUsers);
           console.log("Addable users: ", this.addUsers);
@@ -285,6 +308,8 @@ export class GroupComponent implements OnInit {
     }
   }
 
+
+  //Removes a user from the current group
   removeUser(){
     if (this.removedUser === ""){
       alert("Please select user to remove.")
@@ -294,10 +319,13 @@ export class GroupComponent implements OnInit {
       .subscribe((data: any) => {
         if(data.userRemoved){
           alert(this.removedUser + " removed from the group.");
+
+          //Updating list of users that can be removed from the group.
           let index = this.removeUsers.indexOf(this.removedUser, 0);
           if (index > -1){
             this.removeUsers.splice(index, 1);
           }
+          //Updating list of users that can be added to the group.
           this.addUsers.push(this.removedUser);
           console.log("Removable users: ", this.removeUsers);
           console.log("Addable users: ", this.addUsers);

@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017';
 
+//////Creating a new group
+
 router.post('/', (req, res) => {
     var admins = [];
     var groupName = req.body.gName;
@@ -16,6 +18,7 @@ router.post('/', (req, res) => {
         const db = client.db(dbName);
         const collection = db.collection('groups');
         
+        //Making sure the group doesnt already exist
         collection.findOne({'gName':groupName})
         .then(response => {
             if(response){
