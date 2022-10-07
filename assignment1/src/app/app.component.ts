@@ -14,10 +14,12 @@ export class AppComponent {
   role = JSON.parse(sessionStorage.getItem('role')!);
   
 
+  //Clears the sessions storage after a user logs out.
   logout() {
     sessionStorage.clear();
     this.router.navigateByUrl("/")
     .then(() => {
+      //Reloading the window to update the navigation display.
       window.location.reload();
     });
   }
