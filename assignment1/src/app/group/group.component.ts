@@ -94,8 +94,8 @@ export class GroupComponent implements OnInit {
   }
 
   //Navigates to the selected channel page.
-  openChannel(channelID: number){
-    this.router.navigateByUrl('/chat/' + channelID)
+  openChannel(groupID: number, channelID: number){
+    this.router.navigateByUrl('/chat/' + groupID + "/" + channelID)
   }
 
   //Retrieves the most recent channel ID, used for setting the ID of a newly created channel.
