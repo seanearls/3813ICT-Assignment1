@@ -1,1 +1,17 @@
-<p>Chat works!</p>
+<p>Welcome {{username}}</p>
+
+<div *ngFor="let message of messages">
+    <ul>
+        <li>
+            <span *ngIf="message.type == 'notice'" class="notice">{{ message.username }} {{ message.message }}</span>
+            <span *ngIf="message.type == 'message'" class="message">{{ message.username }}: {{ message.message }}</span>
+        </li>
+    </ul>
+</div>
+
+<div>
+    <form>
+        <input [(ngModel)]="message" type="text" placeholder="Type message here" id="message" name="message" class="form-control">
+        <button (click)="sendMessage(message)" class="btn btn-primary">Send</button>
+    </form>
+</div>

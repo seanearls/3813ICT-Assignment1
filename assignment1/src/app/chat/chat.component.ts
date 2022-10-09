@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Message } from '../model/message';
 
 const serverURL = 'http://localhost:3000';
 const httpOptions = {
@@ -25,39 +26,16 @@ export class ChatComponent implements OnInit {
   groupNumber:number=Number(this.route.snapshot.paramMap.get('groupNumber'));
   channelNumber:number=Number(this.route.snapshot.paramMap.get('channelNumber'));
   channel:any;
+  messages: Message[];
+  message: string="";
   
 
   ngOnInit() {
-    this.getChannel(this.groupNumber, this.channelNumber);
-    console.log(this.channel);
-    this.getGroups();
+    
   }
 
-  getGroups() {
-    this.httpClient.post<any>(serverURL + '/getGroups', this.groups, httpOptions).subscribe(data => {
-      if (data.groups) {
-        this.groups = data.groups;
-        console.log(this.groups);
-        let group = this.groups[this.groupNumber];
-        return group;
-      }
-    });
-}
 
-  getChannel(groupNumber: number, channelNumber: number) {
-    this.httpClient.post<any>(serverURL + '/getGroups', this.groups, httpOptions).subscribe(data => {
-      if (data.groups) {
-        this.groups = data.groups;
-        this.channel = this.groups[groupNumber-1].channel[channelNumber-1];
-        let channel = this.channel;
-        console.log(channel);
-        console.log(this.channel);
-        return;
-      }
-    });
-  }
-
-  addUser() {
+  sendMessage(message: string){
 
   }
 
