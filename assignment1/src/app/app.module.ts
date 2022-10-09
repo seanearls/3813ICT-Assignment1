@@ -12,6 +12,7 @@ import { ChatComponent } from './chat/chat.component';
 import { AdminComponent } from './admin/admin.component';
 import { GroupsService } from './services/groups.service';
 import { UserService } from './services/user.service';
+import { SocketService } from './services/socket.service';
 import { GroupComponent } from './group/group.component';
 
 
@@ -31,7 +32,7 @@ import { GroupComponent } from './group/group.component';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [SocketService, GroupsService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
