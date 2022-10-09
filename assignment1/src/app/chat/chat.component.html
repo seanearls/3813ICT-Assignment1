@@ -1,5 +1,25 @@
 <p>Welcome {{username}}</p>
 
+<div>
+    <li *ngFor="let message of messages">
+        {{message}}
+    </li>
+</div>
+
+<div class="container">
+    <form>
+        <div class="form-group">
+            <label for="message">New Message</label>
+            <input type="text" [(ngModel)]="message" name="message" id="message" class="form-control">
+        </div>
+        <div class="form-group">
+            <button (click)="sendMessage()" class="btn btn-primary">Send</button>
+        </div>
+    </form>
+</div>
+
+
+<!--
 <div *ngFor="let message of messages">
     <ul>
         <li>
@@ -14,4 +34,4 @@
         <input [(ngModel)]="message" type="text" placeholder="Type message here" id="message" name="message" class="form-control">
         <button (click)="sendMessage(message)" class="btn btn-primary">Send</button>
     </form>
-</div>
+</div>-->

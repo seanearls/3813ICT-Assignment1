@@ -2,15 +2,27 @@ const express = require('express'); //Import express module
 const app = express(); //Calling top-level express function
 const server = require('http').Server(app);
 const cors = require('cors');
-const fs = require('fs');
 const bodyParser = require('body-parser');
 const path = require('path');
+const sockets = require('./socket.js');
+const http = require('http').Server(app);
+const PORT = 3000;
+const io = require('socket.io')(http, {
+    cors: {
+        origin: "http://localhost:4200",
+        methods: ["GET", "POST"],
+    }
+});
+io.listen(server);
 
 app.use (bodyParser.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname, '../dist/assignment1')));
 
 require('./listen.js')(server);
+
+//Setup Socket
+sockets.connect(io, PORT);
 
 
 /////////////////Routes////////////////////
