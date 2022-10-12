@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
+import { Message } from '../model/message';
 
 const url = 'http://localhost:3000';
 
@@ -20,8 +21,20 @@ export class SocketService {
     }
   }
 
-  sendMessage(message: string){
+  sendMessage(message: Message){
     this.socket.emit('message', message);
+  }
+
+  userJoined(username: string){
+    this.socket.emit('announcement', username + " has joined the room.");
+  }
+
+  userLeft(username: string){
+    this.socket.emit('announcement', username + " has left the room.");
+  }
+
+  channelDetails(details: any){
+    this.socket.emit('channelDetails', details);
   }
 
   getMessage(){

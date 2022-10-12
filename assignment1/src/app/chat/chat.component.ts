@@ -24,8 +24,8 @@ export class ChatComponent implements OnInit {
   role = JSON.parse(sessionStorage.getItem('role')!);
   valid = JSON.parse(sessionStorage.getItem('valid')!);
   groups: any[] = [{}];
-  groupNumber:number=Number(this.route.snapshot.paramMap.get('groupNumber'));
-  channelNumber:number=Number(this.route.snapshot.paramMap.get('channelNumber'));
+  groupID:number=Number(this.route.snapshot.paramMap.get('groupNumber'));
+  channelID:number=Number(this.route.snapshot.paramMap.get('channelNumber'));
   channel:any;
   //messages: Message[];
   messages: string[] = [];
@@ -35,6 +35,8 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     this.initToConnection();
+    this.channelDetails();
+    this.userJoined();
   }
 
   initToConnection(){
@@ -48,11 +50,29 @@ export class ChatComponent implements OnInit {
 
   sendMessage(){
     if(this.message){
-      this.socketService.sendMessage(this.message);
+      let messageData: Message = {
+        username: JSON.parse(sessionStorage.getItem('username')!),
+        message: this.message
+      }
+      this.socketService.sendMessage(messageData);
       this.message = "";
     } else {
-      console.log("No message.")
+      alert("Please type a message to send.");
+      console.log("No message.");
     }
+  }
+
+  userJoined(){
+    let username = JSON.parse(sessionStorage.getItem('username')!);
+    this.socketService.userJoined(username);
+  }
+
+  channelDetails(){
+    this.socketService.channelDetails({
+      groupID: this.groupID,
+      chanID: this.channelID,
+      username: this.username
+    });
   }
 
 }

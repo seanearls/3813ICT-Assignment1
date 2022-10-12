@@ -128,6 +128,7 @@ export class GroupComponent implements OnInit {
           return;
         }
         if(data.channelMade) {
+          alert(this.channelName + " created successfully.");
           this.channelName = "";
           this.newID += 1;
 

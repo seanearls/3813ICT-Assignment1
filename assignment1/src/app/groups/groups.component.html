@@ -5,7 +5,7 @@
         <tr>
             <th class="thead-dark">{{ group.gName }}</th>
             <button type="button" (click)="openGroup(group.ID)">Open</button>
-            <button type="button" (click)="deleteGroup(group.ID)">Delete</button>
+            <button *ngIf="role === 'super' || role === 'admin'" type="button" (click)="deleteGroup(group.ID)">Delete</button>
         </tr>
     </ng-container>
 </table>

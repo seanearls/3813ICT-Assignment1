@@ -70,7 +70,7 @@ export class GroupsComponent implements OnInit {
   }
 
 
-  //Retrieving admin list for permissions purposes.
+  //Retrieving admin list used for subscribing these users to newly created groups.
   getAdmins(){
     let adminList: string[] = [];
     this.UserService.getUsers().subscribe (res => {
